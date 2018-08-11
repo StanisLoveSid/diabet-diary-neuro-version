@@ -1,0 +1,119 @@
+ 
+<%= line_chart warnings(@warning_start, @warning_end, @result, @meals_result, @insulin_result, @exercise_start, @exercise_end, @prediction) %>
+
+<%= pie_chart((@day.sugar_levels.group(:status).count), adapter: "google") %>
+
+
+Conclusion: <%= @day.compensated? ? "Compensated" : "Not compensated" %>
+
+<%= link_to "Predict bsl", "/predict_bsl/day_#{@day.id}" %>
+
+ 
+<div class="row">
+<div class="col-sm-2">
+Sugar Level
+<%= form_for([@year, @month, @day, @day.sugar_levels.build], method: :post ) do |f| %>
+
+<p>
+<%= f.label :mmol %> 
+<%= f.text_field :mmol %></p>
+<p> 
+<%= f.label :created_at %>
+<%= f.text_field :created_at, value: "#{@day.created_at.year}"+"-"+"#{@day.created_at.month}"+"-"+"#{@day.created_at.day} "%></p>
+<p> <%= f.submit "submit" %> </p>
+<% end %>
+</div>
+
+
+
+<div class="col-sm-2">
+Meal
+<%= form_for([@year, @month, @day, @day.meals.build], method: :post ) do |f| %>
+<p>
+<%= f.label :bread_units %>
+<%= f.text_field :bread_units %></p>
+<p>
+<%= f.label :description %>
+<%= f.text_field :description %></p>
+<p>
+<%= f.label :created_at %>
+<%= f.text_field :created_at, value: "#{@day.created_at.year}"+"-"+"#{@day.created_at.month}"+"-"+"#{@day.created_at.day} "%></p>
+<p><%= f.submit "submit" %></p>
+<% end %>
+</div>
+
+<div class="col-sm-2">
+Insulin injection
+<%= form_for([@year, @month, @day, @day.insulin_injections.build], method: :post ) do |f| %>
+<p>
+<%= f.label :amount %>
+<%= f.text_field :amount %></p>
+<p>
+<%= f.label :insulin_type %>
+<%= f.text_field :insulin_type %></p>
+<p>
+<%= f.label :created_at %>
+<%= f.text_field :created_at, value: "#{@day.created_at.year}"+"-"+"#{@day.created_at.month}"+"-"+"#{@day.created_at.day} "%></p>
+<p><%= f.submit "submit" %></p>
+<% end %>
+</div>
+
+<div class="col-sm-2">
+Exercise
+<%= form_for([@year, @month, @day, @day.exercises.build], method: :post ) do |f| %>
+<p>
+<%= f.label :status %>
+<%= f.text_field :status %></p>
+<p>
+<%= f.label :description %>
+<%= f.text_field :description %></p>
+<p>
+<%= f.label :created_at %>
+<%= f.text_field :created_at, value: "#{@day.created_at.year}"+"-"+"#{@day.created_at.month}"+"-"+"#{@day.created_at.day} "%></p>
+<p><%= f.submit "submit" %></p>
+<% end %>
+</div>
+
+<div class="col-sm-2">
+Warning
+<%= form_for([@year, @month, @day, @day.warnings.build], method: :post ) do |f| %>
+<p>
+<%= f.label :reason %>
+<%= f.text_field :reason %></p>
+<p>
+<%= f.label :description %>
+<%= f.text_field :description %></p>
+<p>
+<%= f.label :created_at %>
+<%= f.text_field :created_at, value: "#{@day.created_at.year}"+"-"+"#{@day.created_at.month}"+"-"+"#{@day.created_at.day} "%></p>
+<p><%= f.submit "submit" %></p>
+<% end %>  
+</div>
+</div>   
+
+<% @day.errors.full_messages.each do |msg| %>
+<%= msg %>
+<% end %>
+
+<%= link_to "Delete day", year_month_day_path(@year, @month, @day), method: :delete %>
+
+<% @day.sugar_levels.each do |sugar_level| %>
+<p>
+<%= sugar_level.mmol %>
+<%= sugar_level.created_at %>
+<% if sugar_level.id != nil%>
+<%= link_to "Edit", edit_year_month_day_sugar_level_path(@year, @month, @day, sugar_level) %>
+<%= link_to "Delete analysis", year_month_day_sugar_level_path(@year, @month, @day, sugar_level), method: :delete %>
+<% end %>
+</p>
+<% end %>
+
+
+<%= render partial: "comments/comments", locals: {commentable: @day} %>
+<%= form_for [@year, @month, @day, Comment.new] do |f| %>
+<div class="form-group">
+	<%= f.text_field :status, class: "form-control" %>
+	<%= f.text_area :content, class: "form-control" %>
+	<%= f.submit "Add comment" %>
+</div>
+<% end %>

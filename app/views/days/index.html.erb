@@ -1,0 +1,12 @@
+<%= form_for current_user.days.new do |f| %>
+<%= f.text_field :created_at %>
+<%= f.submit "submit" %>
+<% end %>
+
+<% @days.each do |day| %>
+<%= link_to "#{day.created_at.year}"+"."+"#{day.created_at.month}"+"."+"#{day.created_at.day}", day_path(day.id) %>
+<% end %>
+
+<%= @sugar_levels.each do |sl| %>
+<%= sl.created_at %>
+<% end -%>

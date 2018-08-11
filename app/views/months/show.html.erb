@@ -1,0 +1,25 @@
+<%= simple_form_for([@year, @month, @month.days.new]) do |f| %>
+<%= f.input :day_number, collection: @days_collection %>
+<%= f.submit "submit" %>
+<% end %>
+
+<%= line_chart @total %>
+<%= pie_chart(@status_hash, adapter: "google") %>
+
+<%= link_to "Delete month", year_month_path(@year, @month), method: :delete %>
+
+<% @month.days.each do |day| %>
+<% if day.id != nil%>
+<%= link_to "#{day.created_at.year}"+"."+"#{day.created_at.month}"+"."+"#{day.created_at.day}", year_month_day_path(@year, @month, day.id) %>
+<% end %>
+<% end %>
+
+
+<%= render partial: "comments/comments", locals: {commentable: @month} %>
+<%= form_for [@year, @month, Comment.new] do |f| %>
+<div class="form-group">
+	<%= f.text_field :status, class: "form-control" %>
+	<%= f.text_area :content, class: "form-control" %>
+	<%= f.submit "Add comment" %>
+</div>
+<% end %>

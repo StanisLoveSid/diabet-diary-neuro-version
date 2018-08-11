@@ -1,0 +1,75 @@
+<div id="container" style="min-width: 310px; height: 400px; max-width: 800px; margin: 0 auto"></div>
+
+<%= javascript_include_tag "//www.google.com/jsapi", "chartkick" %>
+<%= area_chart @result, utc: true %>
+
+
+<script>
+Highcharts.chart('container', {
+    chart: {
+        type: 'scatter',
+        zoomType: 'xy'
+    },
+    title: {
+        text: 'Height Versus Weight of 507 Individuals by Gender'
+    },
+    subtitle: {
+        text: 'Source: Heinz  2003'
+    },
+xAxis: {
+    title: {
+        enabled: true,
+        text: 'Hours of the Day'
+    },
+    type: 'datetime',
+
+    dateTimeLabelFormats : {
+        hour: '%H:%M'
+    }
+},
+    legend: {
+        layout: 'vertical',
+        align: 'left',
+        verticalAlign: 'top',
+        x: 100,
+        y: 70,
+        floating: true,
+        backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF',
+        borderWidth: 1
+    },
+    plotOptions: {
+        scatter: {
+            marker: {
+                radius: 5,
+                states: {
+                    hover: {
+                        enabled: true,
+                        lineColor: 'rgb(100,100,100)'
+                    }
+                }
+            },
+            states: {
+                hover: {
+                    marker: {
+                        enabled: false
+                    }
+                }
+            },
+tooltip: {
+    formatter: function() {
+        return ''+
+                "" +
+                'Time: '+ Highcharts.dateFormat('%H:%M', this.x);
+    }
+}
+        }
+    },
+    series: [{
+        name: 'Female',
+        color: 'rgba(223, 83, 83, .5)',
+        data: <%= @mmol_and_time %>
+
+    }]
+});  
+</script>
+

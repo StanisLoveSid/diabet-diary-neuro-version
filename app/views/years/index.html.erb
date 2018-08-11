@@ -1,0 +1,8 @@
+<%= simple_form_for current_user.years.new do |f| %>
+<%= f.input :year_number, collection: @year_collection %>
+<%= f.submit "submit" %>
+<% end %>
+
+<% @years.each do |year| %>
+<%= link_to "#{year.created_at.year}", year_path(year.id) %>
+<% end %>

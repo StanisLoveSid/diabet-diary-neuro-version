@@ -1,0 +1,27 @@
+<%= simple_form_for([@year, @year.months.build], method: :post ) do |f| %>
+<%= f.input :month_name, collection: @month_names %>
+<%= f.submit "submit" %>
+<% end %>
+
+<%= area_chart @zoomable %>
+
+<%= pie_chart @status_hash, adapter: "google"%>
+
+<%= link_to "Delete year", year_path(@year), method: :delete %>
+
+<% @year.months.each do |month| %>
+<% if month.id != nil%>
+<%= link_to "#{month.month_name}", year_month_path(@year, month.id) %>
+<% end %>
+<% end %>
+
+
+<%= render partial: "comments/comments", locals: {commentable: @year} %>
+<%= form_for [@year, Comment.new] do |f| %>
+<div class="form-group">
+	<%= f.text_field :status, class: "form-control" %>
+	<%= f.text_area :content, class: "form-control" %>
+	<%= f.submit "Add comment" %>
+</div>
+<% end %>
+

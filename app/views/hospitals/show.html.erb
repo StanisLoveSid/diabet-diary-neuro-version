@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<%= link_to 'Edit', edit_hospital_path(@hospital) %> |
+<%= link_to 'Back', hospitals_path %>
+<p>
+<%= @hospital.name %>
+</p>
+<p>
+<%= @hospital.description %>
+</p>
+
+<% @hospital.users.where("role = ?", "doctor").accepted.each do |user| %>
+<%= user.email %>
+<% end %>
+

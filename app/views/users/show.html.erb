@@ -1,0 +1,19 @@
+<%= current_user.id %>
+<%= link_to "Sign out", destroy_user_session_path, :method => :delete %>
+
+<%= @user.email %>
+
+<%= friendship(@user, current_user)%>
+
+<% @user.friends.each do |friend| %>
+<%= friend.email %>
+<% end %>
+
+<% @user.years.each do |year| %>
+<%= link_to year.year_number, year_path(year) %>
+<% end %>
+
+<%= link_to "Add to hospital", controller: "hospitals", action: "add_to_hospital", id: @user.id %>
+
+
+

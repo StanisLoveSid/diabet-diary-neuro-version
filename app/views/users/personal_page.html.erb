@@ -1,0 +1,31 @@
+<%= current_user.id %>
+Receiving requests:
+<p>
+<% current_user.pending_friends.each do |friend| %>
+<%= link_to "Accept friendship of #{friend.email}", {controller: "users", action: "accept_request", user_id: friend.id} %>
+<% end %>
+</p>
+
+<p>
+Sent requests:
+<% current_user.requested_friends.each do |requested_friend| %>
+<%= requested_friend.email %>
+<% end %>
+</p>
+
+<p>
+Friends:
+<% current_user.friends.each do |friend| %>
+<%= friend.email %>
+<% end %>
+</p>
+
+<p>
+Hospitals:	
+<% @requested_hospitals.each do |name, id| %>
+<%= link_to name, "/hospitals/#{id}" %>
+<%= link_to "Exit hospital", controller: "hospitals", action: "deny_hospital", id: id %>
+<% end %>
+</p>
+
+<%= link_to "Add to hospital", controller: "hospitals", action: "accept_hospital", id: current_user.id %>
