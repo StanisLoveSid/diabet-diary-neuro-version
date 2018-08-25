@@ -1,3 +1,4 @@
 class InsulinInjection < ApplicationRecord
   belongs_to :day
+  scope :created_between, lambda {|start_date, end_date, day_id| where("created_at >= ? AND created_at <= ? AND day_id = ?", start_date, end_date, day_id )}
 end

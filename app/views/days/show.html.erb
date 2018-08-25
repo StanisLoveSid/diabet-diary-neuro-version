@@ -8,6 +8,13 @@ Conclusion: <%= @day.compensated? ? "Compensated" : "Not compensated" %>
 
 <%= link_to "Predict bsl", "/predict_bsl/day_#{@day.id}" %>
 
+
+<%= form_for @day, url: { action:"predict_blood_sugar_level" }, method: :get do |form| %>
+<div class="input-group filtering-select col-sm-2">
+<%= form.select :mode, ["general", "learning"],{}, {class: "form-control ra-filtering-select-input ui-autocomplete-input", style: "display: inline-block;"} %></div>
+<p> <%= form.submit "submit" %> </p>
+<% end %>
+
  
 <div class="row">
 <div class="col-sm-2">
