@@ -12,7 +12,7 @@ module WarningsHelper
 
     if areas != nil && areas.last != nil
       areas.last.pop if areas.last.last == nil
-    end
+    end 
 
     areas.each do |variable|
       i += 1

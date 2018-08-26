@@ -34,8 +34,8 @@ class DaysController < ApplicationController
     @insulin = @day.insulin_injections.group_by_minute(:created_at).sum(3)
     @insulin_result = @insulin.select{|k, v| v != 0}
 
-    @exercise_start = @day.exercises.where("status = ?", "start").group_by_minute(:created_at).sum(10)
-    @exercise_end = @day.exercises.where("status = ?", "end").group_by_minute(:created_at).sum(10)
+    @exercise_start = @day.exercises.group_by_minute(:begining).sum(10)
+    @exercise_end = @day.exercises.group_by_minute(:ending).sum(10)
 
     @warning_start = @day.warnings.where("reason = ?", "start").group_by_minute(:created_at).sum(15)
     @warning_end = @day.warnings.where("reason = ?", "end").group_by_minute(:created_at).sum(15)
@@ -52,13 +52,14 @@ class DaysController < ApplicationController
   end
 
   def predict_blood_sugar_level
+  	# can't find exercises created_between
     day = Day.find(params[:id])
     month = Month.find(day.month_id)
     last_sugar_level = day.sugar_levels.last
     mmol = last_sugar_level.mmol
-    for_p_bread_units = Meal.created_between((last_sugar_level.created_at - 0.5.hours), (last_sugar_level.created_at + 2.hours), day.id).map(&:bread_units).sum
-    for_p_insulin_injection = InsulinInjection.created_between((last_sugar_level.created_at - 0.5.hours), (last_sugar_level.created_at + 2.hours), day.id).map(&:amount).sum
-    for_p_training_duration = Exercise.created_between((last_sugar_level.created_at - 0.5.hours), (last_sugar_level.created_at + 2.hours), day.id).map(&:duration).sum
+    for_p_bread_units = Meal.created_between((last_sugar_level.created_at - 1.hours), (last_sugar_level.created_at + 2.hours), day.id).map(&:bread_units).sum
+    for_p_insulin_injection = InsulinInjection.created_between((last_sugar_level.created_at - 1.hours), (last_sugar_level.created_at + 2.hours), day.id).map(&:amount).sum
+    for_p_training_duration = Exercise.created_between((last_sugar_level.created_at - 1.hours), (last_sugar_level.created_at + 2.hours), day.id).map(&:duration).sum
 
     if params[:day][:mode] == "learning"
       before_future_bsl = []
