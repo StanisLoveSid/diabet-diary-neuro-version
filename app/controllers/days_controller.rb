@@ -51,15 +51,27 @@ class DaysController < ApplicationController
     redirect_to year_month_path(@year, @month)
   end
 
+  def actual_exercises(day, sugar_level)
+    exercises_begining = Exercise.created_between((sugar_level.created_at - 1.hours), (sugar_level.created_at + 2.hours), day.id)
+    exercises_ending = Exercise.updated_between((sugar_level.created_at - 1.hours), (sugar_level.created_at + 2.hours), day.id)
+    if exercises_begining.any?
+     exercises_begining.map(&:duration).sum
+    elsif exercises_ending.any?
+      exercises_ending.map(&:duration).sum
+    else
+      0
+    end
+  end
+
   def predict_blood_sugar_level
-  	# can't find exercises created_between
     day = Day.find(params[:id])
     month = Month.find(day.month_id)
     last_sugar_level = day.sugar_levels.last
     mmol = last_sugar_level.mmol
     for_p_bread_units = Meal.created_between((last_sugar_level.created_at - 1.hours), (last_sugar_level.created_at + 2.hours), day.id).map(&:bread_units).sum
     for_p_insulin_injection = InsulinInjection.created_between((last_sugar_level.created_at - 1.hours), (last_sugar_level.created_at + 2.hours), day.id).map(&:amount).sum
-    for_p_training_duration = Exercise.created_between((last_sugar_level.created_at - 1.hours), (last_sugar_level.created_at + 2.hours), day.id).map(&:duration).sum
+    for_p_training_duration = actual_exercises day, last_sugar_level
+
 
     if params[:day][:mode] == "learning"
       before_future_bsl = []
@@ -74,7 +86,7 @@ class DaysController < ApplicationController
             possible_future_bsl = future_bsls.first
             bread_units = Meal.created_between((sugar_level.created_at - 1.hours), (sugar_level.created_at + 2.hours), day.id).map(&:bread_units).sum
             insulin_injection = InsulinInjection.created_between((sugar_level.created_at - 1.hours), (sugar_level.created_at + 2.hours), day.id).map(&:amount).sum
-            training_duration = Exercise.created_between((sugar_level.created_at - 1.hours), (sugar_level.created_at + 2.hours), day.id).map(&:duration).sum
+            training_duration = actual_exercises day, sugar_level
             before_future_bsl.push [before_food_mmol, bread_units, insulin_injection, training_duration, possible_future_bsl]
             ksi_data.push [before_food_mmol, bread_units, insulin_injection, training_duration]
             teta_data.push [possible_future_bsl]
