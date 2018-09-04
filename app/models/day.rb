@@ -10,6 +10,8 @@ class Day < ApplicationRecord
   belongs_to :month
   before_save :change_created_at
 
+  validates :day_number, presence: true, numericality: { only_integer: true }
+
   def change_created_at
     self[:created_at] = "#{month.created_at.year}-#{month.created_at.month}-#{self.day_number.to_i}"
   end

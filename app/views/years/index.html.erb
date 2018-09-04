@@ -1,7 +1,17 @@
+<% if user_signed_in? %>
 <%= simple_form_for current_user.years.new do |f| %>
 <%= f.input :year_number, collection: @year_collection %>
 <%= f.submit "submit" %>
 <% end %>
+<% end %>
+
+<h3 class="text-center" style="color: #36820a; margin-bottom: 5%;">
+<%= t 'greetings_page.welcome' %>
+</h3>
+<%= line_chart warnings(@warning_start, @warning_end, @result, @meals_result, @insulin_result, @exercise_start, @exercise_end, @prediction) %>
+
+<%= pie_chart((@random_day_sample.sugar_levels.group(:status).count), adapter: "google") %>
+
 
 <% @years.each do |year| %>
 <%= link_to "#{year.created_at.year}", year_path(year.id) %>

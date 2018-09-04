@@ -97,9 +97,15 @@ Warning
 <p>
 <%= f.label :description %>
 <%= f.text_field :description %></p>
+
 <p>
-<%= f.label :created_at %>
-<%= f.text_field :created_at, value: "#{@day.created_at.year}"+"-"+"#{@day.created_at.month}"+"-"+"#{@day.created_at.day} "%></p>
+<%= f.label :begining %>
+<%= f.text_field :begining, value: "#{@day.created_at.year}"+"-"+"#{@day.created_at.month}"+"-"+"#{@day.created_at.day} " %>	
+</p>
+<p>
+<%= f.label :ending %>
+<%= f.text_field :ending, value: "#{@day.created_at.year}"+"-"+"#{@day.created_at.month}"+"-"+"#{@day.created_at.day} " %>	
+</p>
 <p><%= f.submit "submit" %></p>
 <% end %>  
 </div>

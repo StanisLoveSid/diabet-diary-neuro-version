@@ -1,7 +1,6 @@
 class DaysController < ApplicationController
   require 'ruby-fann'
   require "neural_network_heplers/patient"
-  require 'pry'
 
   def index
     @days = Day.all
@@ -21,24 +20,32 @@ class DaysController < ApplicationController
     redirect_to :back
   end
 
+  module Selectors
+    def without_emty_slots
+      select { |k, v| v != 0 }
+    end
+  end
+
+  Hash.class_eval { include Selectors }
+
   def show
     @year = Year.find(params[:year_id])
     @month = Month.find(params[:month_id])
     @day = Day.find(params[:id])
     @s_l = @day.sugar_levels.group_by_minute(:created_at).sum(:mmol)
-    @result = @s_l.select{|k, v| v != 0}
+    @result = @s_l.without_emty_slots
 
     @meals = @day.meals.group_by_minute(:created_at).sum(4)
-    @meals_result = @meals.select{|k, v| v != 0}
+    @meals_result = @meals.without_emty_slots
 
     @insulin = @day.insulin_injections.group_by_minute(:created_at).sum(3)
-    @insulin_result = @insulin.select{|k, v| v != 0}
+    @insulin_result = @insulin.without_emty_slots
 
     @exercise_start = @day.exercises.group_by_minute(:begining).sum(10)
     @exercise_end = @day.exercises.group_by_minute(:ending).sum(10)
 
-    @warning_start = @day.warnings.where("reason = ?", "start").group_by_minute(:created_at).sum(15)
-    @warning_end = @day.warnings.where("reason = ?", "end").group_by_minute(:created_at).sum(15)
+    @warning_start = @day.warnings.group_by_minute(:begining).sum(15)
+    @warning_end = @day.warnings.group_by_minute(:ending).sum(15)
     @prediction = @day.bsl_predictions.any? ? @day.bsl_predictions.last.prediction.round(2) : 0
 
   end
@@ -55,7 +62,7 @@ class DaysController < ApplicationController
     exercises_begining = Exercise.created_between((sugar_level.created_at - 1.hours), (sugar_level.created_at + 2.hours), day.id)
     exercises_ending = Exercise.updated_between((sugar_level.created_at - 1.hours), (sugar_level.created_at + 2.hours), day.id)
     if exercises_begining.any?
-     exercises_begining.map(&:duration).sum
+      exercises_begining.map(&:duration).sum
     elsif exercises_ending.any?
       exercises_ending.map(&:duration).sum
     else
@@ -103,7 +110,6 @@ class DaysController < ApplicationController
       training_ksi_data = ksi_data[test_set_size .. ksi_data.size]
       training_teta_data = teta_data[test_set_size .. teta_data.size]
 
-      binding.pry
       train = RubyFann::TrainData.new( inputs: training_ksi_data, desired_outputs: training_teta_data)
 
       model = RubyFann::Standard.new(

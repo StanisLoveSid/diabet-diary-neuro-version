@@ -9,7 +9,7 @@ class WarningsController < ApplicationController
   private
 
   def warning_params
-    params.require(:warning).permit(:reason, :description, :created_at, :day_id_)
+    params.require(:warning).permit(:reason, :description, :created_at, :day_id, :begining, :ending)
   end
 
 end 

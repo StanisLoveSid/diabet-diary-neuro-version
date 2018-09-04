@@ -14,7 +14,7 @@ class YearsController < ApplicationController
     @year = Year.find(params[:id])
     @year.destroy
     redirect_to :root
-  end  
+  end
 
   def show
     @year = Year.find(params[:id])
@@ -50,9 +50,29 @@ class YearsController < ApplicationController
 
   end
 
+  module Selectors
+    def without_emty_slots
+      select { |k, v| v != 0 }
+    end
+  end
+
+  Hash.class_eval { include Selectors }
+
   def index
+    @random_day_sample = Day.order("RANDOM()").includes(:bsl_predictions).where.not(bsl_predictions: {prediction: nil}).first
     @years = Year.all
     @year_collection = (1990..Time.now.year).to_a - Year.all.map(&:year_number)
+    @s_l = @random_day_sample.sugar_levels.group_by_minute(:created_at).sum(:mmol)
+    @result = @s_l.without_emty_slots
+    @meals = @random_day_sample.meals.group_by_minute(:created_at).sum(4)
+    @meals_result = @meals.without_emty_slots
+    @insulin = @random_day_sample.insulin_injections.group_by_minute(:created_at).sum(3)
+    @insulin_result = @insulin.without_emty_slots
+    @exercise_start = @random_day_sample.exercises.group_by_minute(:begining).sum(10)
+    @exercise_end = @random_day_sample.exercises.group_by_minute(:ending).sum(10)
+    @warning_start = @random_day_sample.warnings.where("reason = ?", "start").group_by_minute(:created_at).sum(15)
+    @warning_end = @random_day_sample.warnings.where("reason = ?", "end").group_by_minute(:created_at).sum(15)
+    @prediction = @random_day_sample.bsl_predictions.any? ? @random_day_sample.bsl_predictions.last.prediction.round(2) : 0
   end
 
   private

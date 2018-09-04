@@ -40,6 +40,7 @@ gem 'ffaker'
 gem 'aasm'
 gem 'ruby-fann'
 gem 'time_difference'
+gem 'validates_timeliness'
 # gem 'active_median'
 # gem 'lazy_high_charts'
 gem "highcharts-rails"

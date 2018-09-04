@@ -1,6 +1,8 @@
 class SugarLevel < ApplicationRecord
   belongs_to :day
   validate :which_day
+  validates :created_at, presence: true
+  validates :mmol, presence: true
   before_save :add_status
 
   scope :by_month, lambda { |month| where('extract(month from created_at) = ?', month) }
