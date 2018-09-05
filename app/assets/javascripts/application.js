@@ -16,5 +16,7 @@
 //= require highcharts
 //= require chartkick
 //= require highcharts/highcharts-more
+//= require jquery-clock-timepicker
+//= require jquery-clock-timepicker.min
 //= require turbolinks
 //= require_tree .

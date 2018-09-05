@@ -1,7 +1,7 @@
 class SugarLevel < ApplicationRecord
   belongs_to :day
   validate :which_day
-  validates :created_at, presence: true
+  validates :created_at, presence: true, timeliness: { type: :datetime }
   validates :mmol, presence: true
   before_save :add_status
 
