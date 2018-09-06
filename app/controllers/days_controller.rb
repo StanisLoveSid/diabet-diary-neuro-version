@@ -49,7 +49,7 @@ class DaysController < ApplicationController
     @prediction = @day.bsl_predictions.any? ? @day.bsl_predictions.last.prediction.round(2) : 0
 
   end
-
+ 
   def destroy
     @day = Day.find(params[:id])
     @year = Year.find(params[:year_id])

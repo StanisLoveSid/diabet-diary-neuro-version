@@ -17,100 +17,243 @@ Conclusion: <%= @day.compensated? ? "Compensated" : "Not compensated" %>
 
  
 <div class="row">
-<div class="col-sm-2">
-Sugar Level
-<%= form_for([@year, @month, @day, @day.sugar_levels.build], method: :post ) do |f| %>
+			<div class="col-sm-3">
+				<div class="main-login main-center">
+				<h4>Sugar level.</h4>
+					<%= form_for([@year, @month, @day, @day.sugar_levels.build], method: :post ) do |f| %>
+						
+						<div class="form-group">
+							<label for="name" class="cols-sm-2 control-label">mmol</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-tint" aria-hidden="true"></i></span>
+									<%= f.text_field :mmol, class: "form-control", placeholder: "mmol" %>
+								</div>
+							</div>
+						</div>
 
-<p>
-<%= f.label :mmol %> 
-<%= f.text_field :mmol %></p>
-<p> 
-<%= f.label :created_at %>
-<%= f.text_field :created_at, class: "timemmol"%></p>
-<p> <%= f.submit "submit" %> </p>
-<% end %>
-<script>
-$('.timemmol').clockTimePicker();	
-</script>
-</div>
+						<div class="form-group">
+							<label for="email" class="cols-sm-2 control-label">Time</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-clock-o" aria-hidden="true"></i></span>
+									<%= f.text_field :created_at, class: "form-control", placeholder: "time", id: "timemmol" %>
+								</div>
+							</div>
+						</div>
 
-<div class="col-sm-2">
-Meal
-<%= form_for([@year, @month, @day, @day.meals.build], method: :post ) do |f| %>
-<p>
-<%= f.label :bread_units %>
-<%= f.text_field :bread_units %></p>
-<p>
-<%= f.label :description %>
-<%= f.text_field :description %></p>
-<p>
-<%= f.label :created_at %>
-<%= f.text_field :created_at, class: "timemeal" %></p>
-<p><%= f.submit "submit" %></p>
-<% end %>
-<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-</div>
-
-<div class="col-sm-2">
-Insulin injection
-<%= form_for([@year, @month, @day, @day.insulin_injections.build], method: :post ) do |f| %>
-<p>
-<%= f.label :amount %>
-<%= f.text_field :amount %></p>
-<p>
-<%= f.label :insulin_type %>
-<%= f.text_field :insulin_type %></p>
-<p>
-<%= f.label :created_at %>
-<%= f.text_field :created_at, value: "#{@day.created_at.year}"+"-"+"#{@day.created_at.month}"+"-"+"#{@day.created_at.day} "%></p>
-<p><%= f.submit "submit" %></p>
-<% end %>
-</div>
-
-<div class="col-sm-2">
-Exercise
+						<div class="form-group ">
+							<%= f.submit "submit", class: "btn btn-primary btn-lg btn-block login-button" %> 
+						</div>
+						
+					<% end %>
+				</div>
+			</div>
 
 
-<%= form_for([@year, @month, @day, @day.exercises.build], method: :post ) do |f| %>
-<p>
-<%= f.label :begining %>
-<%= f.text_field :begining, value: "#{@day.created_at.year}"+"-"+"#{@day.created_at.month}"+"-"+"#{@day.created_at.day} " %>
-</p>
-<p>
-<%= f.label :ending %>
-<%= f.text_field :ending, value: "#{@day.created_at.year}"+"-"+"#{@day.created_at.month}"+"-"+"#{@day.created_at.day} " %>
-</p>
+			<div class="col-sm-3">
+				<div class="main-login main-center">
+				<h4>Meal.</h4>
+					<%= form_for([@year, @month, @day, @day.meals.build], method: :post ) do |f| %>
+						
+						<div class="form-group">
+							<label for="name" class="cols-sm-2 control-label">Bread units</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-cutlery" aria-hidden="true"></i></span>
+									<%= f.text_field :bread_units, class: "form-control", placeholder: "Bread units" %>
+								</div>
+							</div>
+						</div>
 
-<p>
-<%= f.label :description %>
-<%= f.text_field :description %></p>
-<p>
+						<div class="form-group">
+							<label for="name" class="cols-sm-2 control-label">Description</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-book" aria-hidden="true"></i></span>
+									<%= f.text_field :description, class: "form-control", placeholder: "description" %>
+								</div>
+							</div>
+						</div>						
 
-<p><%= f.submit "submit" %></p>
-<% end %>
-</div>
+						<div class="form-group">
+							<label for="email" class="cols-sm-2 control-label">Time</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-clock-o" aria-hidden="true"></i></span>
+									<%= f.text_field :created_at, class: "form-control", placeholder: "time", id: "timemeal" %>
+								</div>
+							</div>
+						</div>
 
-<div class="col-sm-2">
-Warning
-<%= form_for([@year, @month, @day, @day.warnings.build], method: :post ) do |f| %>
-<p>
-<%= f.label :reason %>
-<%= f.text_field :reason %></p>
-<p>
-<%= f.label :description %>
-<%= f.text_field :description %></p>
+						<div class="form-group ">
+							<%= f.submit "submit", class: "btn btn-primary btn-lg btn-block login-button" %> 
+						</div>
+						
+					<% end %>
+				</div>
+			</div>
 
-<p>
-<%= f.label :begining %>
-<%= f.text_field :begining, value: "#{@day.created_at.year}"+"-"+"#{@day.created_at.month}"+"-"+"#{@day.created_at.day} " %>	
-</p>
-<p>
-<%= f.label :ending %>
-<%= f.text_field :ending, value: "#{@day.created_at.year}"+"-"+"#{@day.created_at.month}"+"-"+"#{@day.created_at.day} " %>	
-</p>
-<p><%= f.submit "submit" %></p>
-<% end %>  
-</div>
+
+
+			<div class="col-sm-3">
+				<div class="main-login main-center">
+				<h4>Insulin Injection.</h4>
+					<%= form_for([@year, @month, @day, @day.insulin_injections.build], method: :post ) do |f| %>
+						
+						<div class="form-group">
+							<label for="name" class="cols-sm-2 control-label">Amount</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-medkit" aria-hidden="true"></i></span>
+									<%= f.text_field :amount, class: "form-control", placeholder: "Amount" %>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="name" class="cols-sm-2 control-label">Insulin type</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-medkit" aria-hidden="true"></i></span>
+									<%= f.text_field :insulin_type, class: "form-control", placeholder: "Insulin type" %>
+								</div>
+							</div>
+						</div>						
+
+						<div class="form-group">
+							<label for="email" class="cols-sm-2 control-label">Time</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-clock-o" aria-hidden="true"></i></span>
+									<%= f.text_field :created_at, class: "form-control", placeholder: "time", id: "timeinsulin" %>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group ">
+							<%= f.submit "submit", class: "btn btn-primary btn-lg btn-block login-button" %> 
+						</div>
+						
+					<% end %>
+				</div>
+			</div>
+
+
+
+			<div class="col-sm-3">
+				<div class="main-login main-center">
+				<h4>Exercise.</h4>
+					<%= form_for([@year, @month, @day, @day.exercises.build], method: :post ) do |f| %>
+						
+						<div class="form-group">
+							<label for="name" class="cols-sm-2 control-label">Status</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-line-chart" aria-hidden="true"></i></span>
+									<%= f.text_field :status, class: "form-control", placeholder: "status" %>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="name" class="cols-sm-2 control-label">Description</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-book" aria-hidden="true"></i></span>
+									<%= f.text_field :description, class: "form-control", placeholder: "description" %>
+								</div>
+							</div>
+						</div>						
+
+						<div class="form-group">
+							<label for="email" class="cols-sm-2 control-label">Time begining</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-clock-o" aria-hidden="true"></i></span>
+									<%= f.text_field :begining, class: "form-control", placeholder: "time", id: "timeWarningBegining" %>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="email" class="cols-sm-2 control-label">Time ending</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-clock-o" aria-hidden="true"></i></span>
+									<%= f.text_field :ending, class: "form-control", placeholder: "time", id: "timeWarningEnding" %>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group ">
+							<%= f.submit "submit", class: "btn btn-primary btn-lg btn-block login-button" %> 
+						</div>
+						
+					<% end %>
+				</div>
+			</div>
+
+
+
+
+			<div class="col-sm-3">
+				<div class="main-login main-center">
+				<h4>Warnings.</h4>
+					<%= form_for([@year, @month, @day, @day.warnings.build], method: :post ) do |f| %>
+						
+						<div class="form-group">
+							<label for="name" class="cols-sm-2 control-label">Reason</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-question" aria-hidden="true"></i></span>
+									<%= f.text_field :reason, class: "form-control", placeholder: "reason" %>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="name" class="cols-sm-2 control-label">Description</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-book" aria-hidden="true"></i></span>
+									<%= f.text_field :description, class: "form-control", placeholder: "description" %>
+								</div>
+							</div>
+						</div>						
+
+						<div class="form-group">
+							<label for="email" class="cols-sm-2 control-label">Time begining</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-clock-o" aria-hidden="true"></i></span>
+									<%= f.text_field :begining, class: "form-control", placeholder: "time", id: "timeExerciseBegining" %>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="email" class="cols-sm-2 control-label">Time ending</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-clock-o" aria-hidden="true"></i></span>
+									<%= f.text_field :ending, class: "form-control", placeholder: "time", id: "timeExerciseEnding" %>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group ">
+							<%= f.submit "submit", class: "btn btn-primary btn-lg btn-block login-button" %> 
+						</div>
+						
+					<% end %>
+				</div>
+			</div>
+
+
+
+
+
 </div>   
 
 <% @day.errors.full_messages.each do |msg| %>
@@ -139,6 +282,114 @@ Warning
 	<%= f.submit "Add comment" %>
 </div>
 <% end %>
+
+
+<style>
+
+#playground-container {
+    height: 500px;
+    overflow: hidden !important;
+    -webkit-overflow-scrolling: touch;
+}
+
+.main{
+ 	margin:50px 15px;
+}
+
+h1.title { 
+	font-size: 50px;
+	font-family: 'Passion One', cursive; 
+	font-weight: 400; 
+}
+
+hr{
+	width: 10%;
+	color: #fff;
+}
+
+.form-group{
+	margin-bottom: 15px;
+}
+
+label{
+	margin-bottom: 15px;
+}
+
+input,
+input::-webkit-input-placeholder {
+    font-size: 11px;
+    padding-top: 3px;
+}
+
+.main-login{
+ 	background-color: #fff;
+    /* shadows and rounded borders */
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+    -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+
+}
+.form-control {
+    height: auto!important;
+padding: 8px 12px !important;
+}
+.input-group {
+    -webkit-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.21)!important;
+    -moz-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.21)!important;
+    box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.21)!important;
+}
+#button {
+    border: 1px solid #ccc;
+    margin-top: 28px;
+    padding: 6px 12px;
+    color: #666;
+    text-shadow: 0 1px #fff;
+    cursor: pointer;
+    -moz-border-radius: 3px 3px;
+    -webkit-border-radius: 3px 3px;
+    border-radius: 3px 3px;
+    -moz-box-shadow: 0 1px #fff inset, 0 1px #ddd;
+    -webkit-box-shadow: 0 1px #fff inset, 0 1px #ddd;
+    box-shadow: 0 1px #fff inset, 0 1px #ddd;
+    background: #f5f5f5;
+    background: -moz-linear-gradient(top, #f5f5f5 0%, #eeeeee 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f5f5f5), color-stop(100%, #eeeeee));
+    background: -webkit-linear-gradient(top, #f5f5f5 0%, #eeeeee 100%);
+    background: -o-linear-gradient(top, #f5f5f5 0%, #eeeeee 100%);
+    background: -ms-linear-gradient(top, #f5f5f5 0%, #eeeeee 100%);
+    background: linear-gradient(top, #f5f5f5 0%, #eeeeee 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f5f5f5', endColorstr='#eeeeee', GradientType=0);
+}
+.main-center{
+ 	margin-top: 30px;
+ 	margin: 0 auto;
+ 	max-width: 400px;
+    padding: 2px 14px;
+	background:#009edf;
+	color: #FFF;
+    text-shadow: none;
+	-webkit-box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.31);
+    -moz-box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.31);
+    box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.31);
+
+}
+span.input-group-addon i {
+    color: #009edf;
+    font-size: 17px;
+}
+
+.login-button{
+	margin-top: 5px;
+}
+
+.login-register{
+	font-size: 11px;
+	text-align: center;
+}
+</style>
 
 
 

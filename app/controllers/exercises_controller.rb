@@ -5,7 +5,12 @@ class ExercisesController < ApplicationController
     @day.exercises.create(exercise_params)
     last_exercise = @day.exercises.last
     duration = TimeDifference.between(last_exercise.begining, last_exercise.ending).in_hours
-    last_exercise.update(duration: duration, created_at: last_exercise.begining, updated_at: last_exercise.ending)
+    time_creation_begining = "#{@day.created_at.year}"+"-"+
+      "#{@day.created_at.month}"+"-"+"#{@day.created_at.day} #{params[:exercise][:begining]}"
+    time_creation_ending = "#{@day.created_at.year}"+"-"+
+      "#{@day.created_at.month}"+"-"+"#{@day.created_at.day} #{params[:exercise][:ending]}"
+    last_exercise.update(duration: duration, begining: time_creation_begining, 
+      ending: time_creation_ending, created_at: time_creation_begining, updated_at: time_creation_ending)
     redirect_to :back
   end
 
