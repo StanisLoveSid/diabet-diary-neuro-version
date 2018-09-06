@@ -41,6 +41,7 @@ gem 'aasm'
 gem 'ruby-fann'
 gem 'time_difference'
 gem 'validates_timeliness'
+# gem 'jquery-turbolinks'
 # gem 'active_median'
 # gem 'lazy_high_charts'
 gem "highcharts-rails"
