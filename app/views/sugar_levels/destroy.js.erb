@@ -1,0 +1,6 @@
+$("#sugar_level_<%= @sugar_level.id %>").fadeOut(500, function(){
+	$(this).remove();
+	$("#sugar_levels_notify").text("Sugar level is succsessfully deleted");
+	$("#lineChart").html('<%= j render "line_chart" %>');
+	window.location.href = '#lineChart'
+});

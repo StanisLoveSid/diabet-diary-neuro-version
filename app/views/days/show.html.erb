@@ -1,14 +1,174 @@
- 
+ <div id="lineChart">
 <%= line_chart warnings(@warning_start, @warning_end, @result, @meals_result, @insulin_result, @exercise_start, @exercise_end, @prediction) %>
+</div>
 
+ <div id="pieChart">
 <%= pie_chart((@day.sugar_levels.group(:status).count), adapter: "google") %>
-
+</div>
 
  <label class="control-label">Conclusion for the day: </label> <% if @day.compensated? %>
               <b style="color: green"> "Compensated" </b>
               <% else %>
               <b style="color: red"> "Not compensated" </b>
               <% end %>
+
+<%= link_to "Delete day", year_month_day_path(@year, @month, @day), method: :delete %>
+
+<div class="row" style="margin-top: 3%;">
+<% @day.errors.full_messages.each do |msg| %>
+<%= msg %>
+<% end %>
+
+<div id="sugar_levels_notify""></div>
+
+<div class="col-sm-4">
+<h4>Blood sugar level</h4>	
+<table class="table table-hover">
+  <thead class="black white-text">
+    <tr>
+      <th scope="col">mmol</th>
+      <th scope="col">Time</th>
+      <th scope="col">Edit</th>
+      <th scope="col">Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+<% @day.sugar_levels.each do |sugar_level| %>  	
+    <tr id="sugar_level_<%= sugar_level.id %>">
+      <th scope="row"><%= sugar_level.mmol %></th>
+      <td><%= sugar_level.created_at.strftime('%H:%M') %></td>
+      <td><%= link_to "Edit", edit_year_month_day_sugar_level_path(@year, @month, @day, sugar_level), remote: true %></td>
+      <td><%= link_to "Delete", year_month_day_sugar_level_path(@year, @month, @day, sugar_level), method: :delete, remote: true %></td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+</div>
+
+
+<div class="col-sm-4">
+<h4>Meal</h4>
+<table class="table table-hover">
+  <thead class="black white-text">
+    <tr>
+      <th scope="col">Bread units</th>
+      <th scope="col">Description</th>
+      <th scope="col">Time</th>
+      <th scope="col">Edit</th>
+      <th scope="col">Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+<% @day.meals.each do |meal| %>  	
+    <tr>
+      <th scope="row"><%= meal.bread_units %></th>
+      <td><%= meal.description == nil ? "----" : meal.description %></td>
+      <td><%= meal.created_at.strftime('%H:%M') %></td>
+      <td><%= link_to "Edit", edit_year_month_day_meal_path(@year, @month, @day, meal) %></td>
+      <td><%= link_to "Delete", year_month_day_meal_path(@year, @month, @day, meal), method: :delete %></td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+</div>	
+
+
+
+<div class="col-sm-4">
+<h4>Insulin injection</h4>	
+<table class="table table-hover">
+  <thead class="black white-text">
+    <tr>
+      <th scope="col">Amount</th>
+      <th scope="col">Type</th>
+      <th scope="col">Time</th>
+      <th scope="col">Edit</th>
+      <th scope="col">Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+<% @day.insulin_injections.each do |insulin_injection| %>  	
+    <tr>
+      <th scope="row"><%= insulin_injection.amount %></th>
+      <td><%= insulin_injection.insulin_type %></td>
+      <td><%= insulin_injection.created_at.strftime('%H:%M') %></td>
+      <td><%= link_to "Edit", edit_year_month_day_insulin_injection_path(@year, @month, @day, insulin_injection) %></td>
+      <td><%= link_to "Delete", year_month_day_insulin_injection_path(@year, @month, @day, insulin_injection), method: :delete %></td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+ </div>
+</div>
+
+
+
+
+<div class="row" style="margin-top: 3%;">
+	<div class="col-sm-5">
+		<h4>Exercises</h4>
+<table class="table table-hover">
+  <thead class="black white-text">
+    <tr>
+      <th scope="col">Status</th>
+      <th scope="col">Description</th>
+      <th scope="col">Duration</th>
+      <th scope="col">Begining</th>
+      <th scope="col">Ending</th>
+      <th scope="col">Edit</th>
+      <th scope="col">Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+<% @day.exercises.each do |exercise| %>  	
+    <tr>
+      <th scope="row"><%= exercise.status %></th>
+      <td><%= exercise.description %></td>
+      <td><%= (exercise.duration * 60).to_i %> mins</td>
+      <td><%= exercise.begining.to_datetime.strftime('%H:%M') %></td>
+      <td><%= exercise.ending.to_datetime.strftime('%H:%M') %></td>
+      <td><%= link_to "Edit", edit_year_month_day_exercise_path(@year, @month, @day, exercise) %></td>
+      <td><%= link_to "Delete", year_month_day_exercise_path(@year, @month, @day, exercise), method: :delete %></td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+	</div>
+
+	<div class="col-sm-5">
+		<h4>Warnings</h4>
+<table class="table table-hover">
+  <thead class="black white-text">
+    <tr>
+      <th scope="col">Reason</th>
+      <th scope="col">Description</th>
+      <th scope="col">Begining</th>
+      <th scope="col">Ending</th>
+      <th scope="col">Edit</th>
+      <th scope="col">Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+<% @day.warnings.each do |warning| %>  	
+    <tr>
+      <th scope="row"><%= warning.reason %></th>
+      <td><%= warning.description %></td>
+      <td><%= warning.begining.to_datetime.strftime('%H:%M') %></td>
+      <td><%= warning.ending.to_datetime.strftime('%H:%M') %></td>
+      <td><%= link_to "Edit", edit_year_month_day_warning_path(@year, @month, @day, warning) %></td>
+      <td><%= link_to "Delete", year_month_day_warning_path(@year, @month, @day, warning), method: :delete %></td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+	</div>
+
+</div>
+
+
 
 
 <div class="row" style="margin-top: 5%; margin-bottom: 5%;">
@@ -270,24 +430,6 @@
 </div>
 
 
-<% @day.errors.full_messages.each do |msg| %>
-<%= msg %>
-<% end %>
-
-<%= link_to "Delete day", year_month_day_path(@year, @month, @day), method: :delete %>
-
-<% @day.sugar_levels.each do |sugar_level| %>
-<p>
-<%= sugar_level.mmol %>
-<%= sugar_level.created_at %>
-<% if sugar_level.id != nil%>
-<%= link_to "Edit", edit_year_month_day_sugar_level_path(@year, @month, @day, sugar_level) %>
-<%= link_to "Delete analysis", year_month_day_sugar_level_path(@year, @month, @day, sugar_level), method: :delete %>
-<% end %>
-</p>
-<% end %>
-
-
 <%= render partial: "comments/comments", locals: {commentable: @day} %>
 
 <div class="row">
@@ -313,6 +455,8 @@
 
 
 <style>
+
+html.wait, html.wait * { cursor: wait !important; }
 
 #playground-container {
     height: 500px;

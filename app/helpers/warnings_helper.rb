@@ -12,7 +12,7 @@ module WarningsHelper
 
     if areas != nil && areas.last != nil
       areas.last.pop if areas.last.last == nil
-    end 
+    end
 
     areas.each do |variable|
       i += 1
@@ -40,7 +40,9 @@ module WarningsHelper
     area << {name: "Meal time", data: meals_result, type: "scatter", label: "Value"}
     area << {name: "Insulin injections", data: insulin_result, type: "scatter"}
     if prediction != 0
-      area << {name: "Future blood sugar level", data: [result.to_a.last,[result.to_a.last.first + 2.hours, prediction]]}
+      if result.any?
+        area << {name: "Future blood sugar level", data: [result.to_a.last,[result.to_a.last.first + 2.hours, prediction]]}
+      end
     end
     area
   end
