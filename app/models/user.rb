@@ -7,6 +7,7 @@ class User < ApplicationRecord
   has_many :days, dependent: :destroy
   has_many :months, dependent: :destroy
   has_many :years, dependent: :destroy
+  has_many :comments, dependent: :destroy
   has_and_belongs_to_many :hospitals
 
   include AASM

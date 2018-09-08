@@ -1,4 +1,5 @@
 class Day < ApplicationRecord
+
   has_many :sugar_levels, dependent: :destroy
   has_many :meals, dependent: :destroy
   has_many :warnings, dependent: :destroy

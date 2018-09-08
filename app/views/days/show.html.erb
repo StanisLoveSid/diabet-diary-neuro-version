@@ -4,21 +4,37 @@
 <%= pie_chart((@day.sugar_levels.group(:status).count), adapter: "google") %>
 
 
-Conclusion: <%= @day.compensated? ? "Compensated" : "Not compensated" %>
+ <label class="control-label">Conclusion for the day: </label> <% if @day.compensated? %>
+              <b style="color: green"> "Compensated" </b>
+              <% else %>
+              <b style="color: red"> "Not compensated" </b>
+              <% end %>
 
-<%= link_to "Predict bsl", "/predict_bsl/day_#{@day.id}" %>
 
-
+<div class="row" style="margin-top: 5%; margin-bottom: 5%;">
+	<div class="col-md-4 col-md-offset-4">
 <%= form_for @day, url: { action:"predict_blood_sugar_level" }, method: :get do |form| %>
-<div class="input-group filtering-select col-sm-2">
-<%= form.select :mode, ["general", "learning"],{}, {class: "form-control ra-filtering-select-input ui-autocomplete-input", style: "display: inline-block;"} %></div>
-<p> <%= form.submit "submit" %> </p>
+<p>
+<label class="control-label"> <h3>Neural Network mode: </h3></label>	
+</p>
+<p>
+<b style="color: red;">*learning</b> - predict future blood sugar level due to your data	
+</p>
+<p>
+<b style="color: red;">*general</b> - predict future blood sugar level due to common rules	
+</p>
+<%= form.select :mode, ["general", "learning"],{}, {class: "form-control ra-filtering-select-input ui-autocomplete-input", style: "display: inline-block;"} %>
+				<div class="form-group">
+							<%= form.submit "submit", class: "btn btn-primary btn-lg btn-block login-button", id: "turbo", style: "background: #36820a;" %> 
+						</div>
 <% end %>
+</div>
+</div>
 
  
-<div class="row">
+<div class="row" st style="margin-bottom: 5%;">
 			<div class="col-sm-3">
-				<div class="main-login main-center">
+				<div class="main-login main-center" style="height: 466px;">
 				<h4>Sugar level.</h4>
 					<%= form_for([@year, @month, @day, @day.sugar_levels.build], method: :post ) do |f| %>
 						
@@ -42,7 +58,7 @@ Conclusion: <%= @day.compensated? ? "Compensated" : "Not compensated" %>
 							</div>
 						</div>
 
-						<div class="form-group ">
+						<div class="form-group" style="padding-top: 175px;">
 							<%= f.submit "submit", class: "btn btn-primary btn-lg btn-block login-button" %> 
 						</div>
 						
@@ -52,7 +68,7 @@ Conclusion: <%= @day.compensated? ? "Compensated" : "Not compensated" %>
 
 
 			<div class="col-sm-3">
-				<div class="main-login main-center">
+				<div class="main-login main-center" style="height: 466px;">
 				<h4>Meal.</h4>
 					<%= form_for([@year, @month, @day, @day.meals.build], method: :post ) do |f| %>
 						
@@ -86,7 +102,7 @@ Conclusion: <%= @day.compensated? ? "Compensated" : "Not compensated" %>
 							</div>
 						</div>
 
-						<div class="form-group ">
+						<div class="form-group" style="padding-top: 87px;">
 							<%= f.submit "submit", class: "btn btn-primary btn-lg btn-block login-button" %> 
 						</div>
 						
@@ -97,7 +113,7 @@ Conclusion: <%= @day.compensated? ? "Compensated" : "Not compensated" %>
 
 
 			<div class="col-sm-3">
-				<div class="main-login main-center">
+				<div class="main-login main-center" style="height: 466px;">
 				<h4>Insulin Injection.</h4>
 					<%= form_for([@year, @month, @day, @day.insulin_injections.build], method: :post ) do |f| %>
 						
@@ -131,7 +147,7 @@ Conclusion: <%= @day.compensated? ? "Compensated" : "Not compensated" %>
 							</div>
 						</div>
 
-						<div class="form-group ">
+						<div class="form-group" style="padding-top: 87px;">
 							<%= f.submit "submit", class: "btn btn-primary btn-lg btn-block login-button" %> 
 						</div>
 						
@@ -194,10 +210,11 @@ Conclusion: <%= @day.compensated? ? "Compensated" : "Not compensated" %>
 				</div>
 			</div>
 
+</div>
 
 
-
-			<div class="col-sm-3">
+<div class="row">
+				<div class="col-sm-3">
 				<div class="main-login main-center">
 				<h4>Warnings.</h4>
 					<%= form_for([@year, @month, @day, @day.warnings.build], method: :post ) do |f| %>
@@ -250,11 +267,8 @@ Conclusion: <%= @day.compensated? ? "Compensated" : "Not compensated" %>
 				</div>
 			</div>
 
+</div>
 
-
-
-
-</div>   
 
 <% @day.errors.full_messages.each do |msg| %>
 <%= msg %>
@@ -275,13 +289,27 @@ Conclusion: <%= @day.compensated? ? "Compensated" : "Not compensated" %>
 
 
 <%= render partial: "comments/comments", locals: {commentable: @day} %>
+
+<div class="row">
 <%= form_for [@year, @month, @day, Comment.new] do |f| %>
-<div class="form-group">
-	<%= f.text_field :status, class: "form-control" %>
-	<%= f.text_area :content, class: "form-control" %>
-	<%= f.submit "Add comment" %>
+<div class="form-group col-md-4 col-md-offset-4">
+	<h4 style="margin-bottom: 30px;">New comment</h4>
+
+	<label class="control-label">Priority: </label>
+	
+<%= f.select :status, ["Low", "Usual", "High"],{}, {class: "form-control ra-filtering-select-input ui-autocomplete-input", style: "display: inline-block;"} %>
+    <label class="control-label">Content: </label>
+    
+	<%= f.text_area :content, class: "form-control", style: "margin-bottom: 30px;" %>
+    
+    
+					<div class="form-group">
+							<%= f.submit "Add comment", class: "btn btn-primary btn-lg btn-block login-button", id: "turbo", style: "background: #d84b6b; border: #d84b6b;" %> 
+						</div>
+    
 </div>
 <% end %>
+</div>
 
 
 <style>
