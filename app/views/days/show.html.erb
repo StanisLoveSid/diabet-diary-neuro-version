@@ -35,8 +35,8 @@
   <tbody>
 <% @day.sugar_levels.each do |sugar_level| %>  	
     <tr id="sugar_level_<%= sugar_level.id %>">
-      <th scope="row"><%= sugar_level.mmol %></th>
-      <td><%= sugar_level.created_at.strftime('%H:%M') %></td>
+      <th scope="row" id="<%=sugar_level.id %>_mmol"><%= sugar_level.mmol %></th>
+      <td id="<%=sugar_level.id %>_created_at"><%= sugar_level.created_at.strftime('%H:%M') %></td>
       <td><%= link_to "Edit", edit_year_month_day_sugar_level_path(@year, @month, @day, sugar_level), remote: true %></td>
       <td><%= link_to "Delete", year_month_day_sugar_level_path(@year, @month, @day, sugar_level), method: :delete, remote: true %></td>
     </tr>
@@ -44,6 +44,8 @@
   </tbody>
 </table>
 
+<div id="there"></div>
+<div id="here"></div>
 </div>
 
 
@@ -88,7 +90,7 @@
     </tr>
   </thead>
   <tbody>
-<% @day.insulin_injections.each do |insulin_injection| %>  	
+<% @day.insulin_injections.each do |insulin_injection| %> 	
     <tr>
       <th scope="row"><%= insulin_injection.amount %></th>
       <td><%= insulin_injection.insulin_type %></td>

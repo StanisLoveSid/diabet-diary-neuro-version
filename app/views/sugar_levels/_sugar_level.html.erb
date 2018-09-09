@@ -1,0 +1,6 @@
+    <tr id="sugar_level_<%= @sugar_level.id %>">
+      <th scope="row"><%= @sugar_level.mmol %></th>
+      <td><%= @sugar_level.created_at.strftime('%H:%M') %></td>
+      <td><%= link_to "Edit", edit_year_month_day_sugar_level_path(@year, @month, @day, @sugar_level), remote: true %></td>
+      <td><%= link_to "Delete", year_month_day_sugar_level_path(@year, @month, @day, @sugar_level), method: :delete, remote: true %></td>
+    </tr>

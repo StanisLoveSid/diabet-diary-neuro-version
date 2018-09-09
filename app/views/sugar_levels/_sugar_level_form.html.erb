@@ -1,0 +1,11 @@
+    <%= form_for([@year, @month, @day, @sugar_level], remote: true ) do |f| %>
+    <div id="sugar_level_<%= @sugar_level.id %>">
+      <p scope="row"><%= f.text_field :mmol, class: "form-control", placeholder: "mmol" %></p>
+      <p><%= f.text_field :created_at, class: "form-control", placeholder: "time", id: "#{@sugar_level.id}_time", value: "#{@sugar_level.created_at.strftime('%H:%M')}" %></p>
+      <p></p>
+      <p><%= f.submit "Update", class: "btn btn-primary btn-lg btn-block login-button", style: "padding: 5px;" %></p>
+    </div>
+<% end %>
+
+
+

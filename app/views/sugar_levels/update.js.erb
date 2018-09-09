@@ -1,0 +1,6 @@
+$("#<%= @sugar_level.id %>_created_at").text("<%= @sugar_level.created_at.strftime('%H:%M') %>");
+$("#<%= @sugar_level.id %>_mmol").text("<%= @sugar_level.mmol %>");
+$("#lineChart").html('<%= j render "line_chart" %>');
+window.location.href = '#lineChart'
+$("#here").remove();
+$("#there").append("<div id='here'></div>");
