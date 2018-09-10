@@ -1,6 +1,20 @@
-    <tr id="sugar_level_<%= @sugar_level.id %>">
-      <th scope="row"><%= @sugar_level.mmol %></th>
-      <td><%= @sugar_level.created_at.strftime('%H:%M') %></td>
-      <td><%= link_to "Edit", edit_year_month_day_sugar_level_path(@year, @month, @day, @sugar_level), remote: true %></td>
-      <td><%= link_to "Delete", year_month_day_sugar_level_path(@year, @month, @day, @sugar_level), method: :delete, remote: true %></td>
+<table class="table table-hover" id="table">
+  <thead class="black white-text">
+    <tr>
+      <th scope="col">mmol</th>
+      <th scope="col">Time</th>
+      <th scope="col">Edit</th>
+      <th scope="col">Delete</th>
     </tr>
+  </thead>
+  <tbody>
+<% @day.sugar_levels.each do |sugar_level| %>  	
+    <tr id="sugar_level_<%= sugar_level.id %>">
+      <th scope="row" id="<%=sugar_level.id %>_mmol"><%= sugar_level.mmol %></th>
+      <td id="<%=sugar_level.id %>_created_at"><%= sugar_level.created_at.strftime('%H:%M') %></td>
+      <td><%= link_to "Edit", edit_year_month_day_sugar_level_path(@year, @month, @day, sugar_level), remote: true %></td>
+      <td><%= link_to "Delete", year_month_day_sugar_level_path(@year, @month, @day, sugar_level), method: :delete, remote: true %></td>
+    </tr>
+<% end %>
+  </tbody>
+</table>

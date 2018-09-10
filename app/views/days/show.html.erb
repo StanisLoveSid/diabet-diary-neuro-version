@@ -23,7 +23,7 @@
 
 <div class="col-sm-4">
 <h4>Blood sugar level</h4>	
-<table class="table table-hover">
+<table class="table table-hover" id="tableSugarLevel">
   <thead class="black white-text">
     <tr>
       <th scope="col">mmol</th>
@@ -198,7 +198,7 @@
 			<div class="col-sm-3">
 				<div class="main-login main-center" style="height: 466px;">
 				<h4>Sugar level.</h4>
-					<%= form_for([@year, @month, @day, @day.sugar_levels.build], method: :post ) do |f| %>
+					<%= form_for([@year, @month, @day, @day.sugar_levels.build], remote: true) do |f| %>
 						
 						<div class="form-group">
 							<label for="name" class="cols-sm-2 control-label">mmol</label>
