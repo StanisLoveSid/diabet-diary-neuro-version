@@ -1,3 +1,5 @@
+ <div id="notifier"></div>
+
  <div id="lineChart">
 <%= line_chart warnings(@warning_start, @warning_end, @result, @meals_result, @insulin_result, @exercise_start, @exercise_end, @prediction) %>
 </div>
@@ -18,8 +20,6 @@
 <% @day.errors.full_messages.each do |msg| %>
 <%= msg %>
 <% end %>
-
-<div id="sugar_levels_notify""></div>
 
 <div class="col-sm-4">
 <h4>Blood sugar level</h4>	
@@ -51,7 +51,7 @@
 
 <div class="col-sm-4">
 <h4>Meal</h4>
-<table class="table table-hover">
+<table class="table table-hover" id="tableMeal">
   <thead class="black white-text">
     <tr>
       <th scope="col">Bread units</th>
@@ -63,16 +63,18 @@
   </thead>
   <tbody>
 <% @day.meals.each do |meal| %>  	
-    <tr>
-      <th scope="row"><%= meal.bread_units %></th>
-      <td><%= meal.description == nil ? "----" : meal.description %></td>
-      <td><%= meal.created_at.strftime('%H:%M') %></td>
-      <td><%= link_to "Edit", edit_year_month_day_meal_path(@year, @month, @day, meal) %></td>
-      <td><%= link_to "Delete", year_month_day_meal_path(@year, @month, @day, meal), method: :delete %></td>
+    <tr id="meal_<%= meal.id %>">
+      <th scope="row" id="<%=meal.id %>_bread_units"><%= meal.bread_units %></th>
+      <td id="<%=meal.id %>_description"><%= meal.description == nil ? "----" : meal.description %></td>
+      <td id="<%=meal.id %>_created_at"><%= meal.created_at.strftime('%H:%M') %></td>
+      <td><%= link_to "Edit", edit_year_month_day_meal_path(@year, @month, @day, meal), remote: true %></td>
+      <td><%= link_to "Delete", year_month_day_meal_path(@year, @month, @day, meal), method: :delete, remote: true %></td>
     </tr>
 <% end %>
   </tbody>
 </table>
+<div id="theremeal"></div>
+<div id="heremeal"></div>
 </div>	
 
 
@@ -232,14 +234,14 @@
 			<div class="col-sm-3">
 				<div class="main-login main-center" style="height: 466px;">
 				<h4>Meal.</h4>
-					<%= form_for([@year, @month, @day, @day.meals.build], method: :post ) do |f| %>
+					<%= form_for([@year, @month, @day, @day.meals.build], remote: true ) do |f| %>
 						
 						<div class="form-group">
 							<label for="name" class="cols-sm-2 control-label">Bread units</label>
 							<div class="cols-sm-10">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-cutlery" aria-hidden="true"></i></span>
-									<%= f.text_field :bread_units, class: "form-control", placeholder: "Bread units" %>
+									<%= f.text_field :bread_units, class: "form-control", placeholder: "Bread units", id: "bread_units" %>
 								</div>
 							</div>
 						</div>
@@ -249,7 +251,7 @@
 							<div class="cols-sm-10">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-book" aria-hidden="true"></i></span>
-									<%= f.text_field :description, class: "form-control", placeholder: "description" %>
+									<%= f.text_field :description, class: "form-control", placeholder: "description", id: "descriptionmeal" %>
 								</div>
 							</div>
 						</div>						

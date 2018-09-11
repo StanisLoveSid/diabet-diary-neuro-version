@@ -1,0 +1,22 @@
+<table class="table table-hover" id="tablemeal">
+  <thead class="black white-text">
+    <tr>
+      <th scope="col">Bread units</th>
+      <th scope="col">Description</th>
+      <th scope="col">Time</th>
+      <th scope="col">Edit</th>
+      <th scope="col">Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+<% @day.meals.each do |meal| %>   
+    <tr>
+      <th scope="row" id="<%=meal.id %>_bread_units"><%= meal.bread_units %></th>
+      <td id="<%=meal.id %>_description"><%= meal.description == nil ? "----" : meal.description %></td>
+      <td id="<%=meal.id %>_created_at"><%= meal.created_at.strftime('%H:%M') %></td>
+      <td><%= link_to "Edit", edit_year_month_day_meal_path(@year, @month, @day, meal), remote: true %></td>
+      <td><%= link_to "Delete", year_month_day_meal_path(@year, @month, @day, meal), method: :delete, remote: true %></td>
+    </tr>
+<% end %>
+  </tbody>
+</table>

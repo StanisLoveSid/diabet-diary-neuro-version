@@ -1,0 +1,9 @@
+$("#<%= @meal.id %>_created_at").text("<%= @meal.created_at.strftime('%H:%M') %>");
+$("#<%= @meal.id %>_bread_units").text("<%= @meal.bread_units %>");
+$("#<%= @meal.id %>_description").text("<%= @meal.description %>");
+$("#lineChart").html('<%= j render "line_chart" %>');
+$("#pieChart").html('<%= j render "pie_chart" %>');
+window.location.href = '#lineChart'
+$("#heremeal").remove();
+$("#theremeal").append("<div id='heremeal'></div>");
+$("#notifier").text("Meal is succsessfully updated");

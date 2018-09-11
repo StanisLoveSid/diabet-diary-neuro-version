@@ -1,0 +1,12 @@
+    <%= form_for([@year, @month, @day, @meal], remote: true ) do |f| %>
+    <div id="meal_<%= @meal.id %>">
+      <p scope="row"><%= f.text_field :bread_units, class: "form-control", placeholder: "bread units" %></p>
+      <p><%= f.text_field :description, class: "form-control", placeholder: "description" %></p>
+      <p><%= f.text_field :created_at, class: "form-control", placeholder: "time", id: "#{@meal.id}_time", value: "#{@meal.created_at.strftime('%H:%M')}" %></p>
+      <p></p>
+      <p><%= f.submit "Update", class: "btn btn-primary btn-lg btn-block login-button", style: "padding: 5px;" %></p>
+    </div>
+<% end %>
+
+
+
