@@ -114,9 +114,9 @@
 <div class="row" style="margin-top: 3%;">
 	<div class="col-sm-6">
 		<h4>Exercises</h4>
-<table class="table table-hover">
+<table class="table table-hover" id="tableExercise">
   <thead class="black white-text">
-    <tr>
+    <tsr>
       <th scope="col">Status</th>
       <th scope="col">Description</th>
       <th scope="col">Duration</th>
@@ -128,20 +128,21 @@
   </thead>
   <tbody>
 <% @day.exercises.each do |exercise| %>  	
-    <tr>
-      <th scope="row"><%= exercise.status %></th>
-      <td><%= exercise.description %></td>
-      <td><%= (exercise.duration * 60).to_i %> mins</td>
-      <td><%= exercise.begining.to_datetime.strftime('%H:%M') %></td>
-      <td><%= exercise.ending.to_datetime.strftime('%H:%M') %></td>
-      <td><%= link_to "Edit", edit_year_month_day_exercise_path(@year, @month, @day, exercise) %></td>
-      <td><%= link_to "Delete", year_month_day_exercise_path(@year, @month, @day, exercise), method: :delete %></td>
+    <tr id="exercise_<%=exercise.id %>">
+      <th scope="row" id="<%=exercise.id %>_status"><%= exercise.status %></th>
+      <td id="<%=exercise.id %>_description"><%= exercise.description %></td>
+      <td id="<%=exercise.id %>_duration"><%= (exercise.duration * 60).to_i %> mins</td>
+      <td id="<%=exercise.id %>_begining"><%= exercise.begining.to_datetime.strftime('%H:%M') %></td>
+      <td id="<%=exercise.id %>_ending"><%= exercise.ending.to_datetime.strftime('%H:%M') %></td>
+      <td><%= link_to "Edit", edit_year_month_day_exercise_path(@year, @month, @day, exercise), remote: true %></td>
+      <td><%= link_to "Delete", year_month_day_exercise_path(@year, @month, @day, exercise), method: :delete, remote: true %></td>
     </tr>
 <% end %>
   </tbody>
 </table>
-
-	</div>
+<div id="thereexercise"></div>
+<div id="hereexercise"></div>
+</div>
 
 	<div class="col-sm-6">
 		<h4>Warnings</h4>
@@ -326,14 +327,14 @@
 			<div class="col-sm-3">
 				<div class="main-login main-center">
 				<h4>Exercise.</h4>
-					<%= form_for([@year, @month, @day, @day.exercises.build], method: :post ) do |f| %>
+					<%= form_for([@year, @month, @day, @day.exercises.build], remote: true ) do |f| %>
 						
 						<div class="form-group">
 							<label for="name" class="cols-sm-2 control-label">Status</label>
 							<div class="cols-sm-10">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-line-chart" aria-hidden="true"></i></span>
-									<%= f.text_field :status, class: "form-control", placeholder: "status" %>
+									<%= f.text_field :status, class: "form-control", id: "exercisestatus", placeholder: "status" %>
 								</div>
 							</div>
 						</div>
@@ -343,7 +344,7 @@
 							<div class="cols-sm-10">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-book" aria-hidden="true"></i></span>
-									<%= f.text_field :description, class: "form-control", placeholder: "description" %>
+									<%= f.text_field :description, class: "form-control", id: "exercisedescription", placeholder: "description" %>
 								</div>
 							</div>
 						</div>						
@@ -353,7 +354,7 @@
 							<div class="cols-sm-10">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-clock-o" aria-hidden="true"></i></span>
-									<%= f.text_field :begining, class: "form-control", placeholder: "time", id: "timeWarningBegining" %>
+									<%= f.text_field :begining, class: "form-control", placeholder: "time", id: "timeExerciseBegining" %>
 								</div>
 							</div>
 						</div>
@@ -363,7 +364,7 @@
 							<div class="cols-sm-10">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-clock-o" aria-hidden="true"></i></span>
-									<%= f.text_field :ending, class: "form-control", placeholder: "time", id: "timeWarningEnding" %>
+									<%= f.text_field :ending, class: "form-control", placeholder: "time", id: "timeExerciseEnding" %>
 								</div>
 							</div>
 						</div>
@@ -410,7 +411,7 @@
 							<div class="cols-sm-10">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-clock-o" aria-hidden="true"></i></span>
-									<%= f.text_field :begining, class: "form-control", placeholder: "time", id: "timeExerciseBegining" %>
+									<%= f.text_field :begining, class: "form-control", placeholder: "time", id: "timeWarningBegining" %>
 								</div>
 							</div>
 						</div>
@@ -420,7 +421,7 @@
 							<div class="cols-sm-10">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-clock-o" aria-hidden="true"></i></span>
-									<%= f.text_field :ending, class: "form-control", placeholder: "time", id: "timeExerciseEnding" %>
+									<%= f.text_field :ending, class: "form-control", placeholder: "time", id: "timeWarningEnding" %>
 								</div>
 							</div>
 						</div>

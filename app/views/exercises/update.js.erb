@@ -1,9 +1,11 @@
-$("#<%= @insulin_injection.id %>_created_at").text("<%= @insulin_injection.created_at.strftime('%H:%M') %>");
-$("#<%= @insulin_injection.id %>_amount").text("<%= @insulin_injection.amount %>");
-$("#<%= @insulin_injection.id %>_insulin_type").text("<%= @insulin_injection.insulin_type %>");
+$("#<%= @exercise.id %>_begining").text("<%= @exercise.begining.to_datetime.strftime('%H:%M') %>");
+$("#<%= @exercise.id %>_ending").text("<%= @exercise.ending.to_datetime.strftime('%H:%M') %>");
+$("#<%= @exercise.id %>_status").text("<%= @exercise.status %>");
+$("#<%= @exercise.id %>_description").text("<%= @exercise.description %>");
+$("#<%= @exercise.id %>_duration").text("<%= (@exercise.duration * 60).to_i %> mins");
 $("#lineChart").html('<%= j render "line_chart" %>');
 $("#pieChart").html('<%= j render "pie_chart" %>');
 window.location.href = '#lineChart'
-$("#hereinsulininjection").remove();
-$("#thereinsulininjection").append("<div id='hereinsulininjection'></div>");
-$("#notifier").text("Insulin injection is succsessfully updated");
+$("#hereexercise").remove();
+$("#thereexercise").append("<div id='hereexercise'></div>");
+$("#notifier").text("Exercise is succsessfully updated");

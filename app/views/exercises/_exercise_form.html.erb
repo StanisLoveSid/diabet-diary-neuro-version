@@ -1,0 +1,13 @@
+    <%= form_for([@year, @month, @day, @exercise], remote: true ) do |f| %>
+    <div id="exercise_<%= @exercise.id %>">
+      <p scope="row"><%= f.text_field :status, class: "form-control", placeholder: "status" %></p>
+      <p><%= f.text_field :description, class: "form-control", placeholder: "description" %></p>
+      <p><%= f.text_field :begining, class: "form-control", placeholder: "time", id: "#{@exercise.id}_time", value: "#{@exercise.begining.to_datetime.strftime('%H:%M')}" %></p>
+      <p><%= f.text_field :ending, class: "form-control", placeholder: "time", id: "#{@exercise.id}_time", value: "#{@exercise.ending.to_datetime.strftime('%H:%M')}" %></p>      
+      <p></p>
+      <p><%= f.submit "Update", class: "btn btn-primary btn-lg btn-block login-button", style: "padding: 5px;" %></p>
+    </div>
+<% end %>
+
+
+

@@ -1,0 +1,26 @@
+<table class="table table-hover" id="tableExercise">
+  <thead class="black white-text">
+    <tr>
+      <th scope="col">Status</th>
+      <th scope="col">Description</th>
+      <th scope="col">Duration</th>
+      <th scope="col">Begining</th>
+      <th scope="col">Ending</th>
+      <th scope="col">Edit</th>
+      <th scope="col">Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+<% @day.exercises.each do |exercise| %>   
+    <tr id="exercise_<%=exercise.id %>">
+      <th scope="row" id="<%=exercise.id %>_status"><%= exercise.status %></th>
+      <td id="<%=exercise.id %>_description"><%= exercise.description %></td>
+      <td id="<%=exercise.id %>_duration"><%= (exercise.duration * 60).to_i %> mins</td>
+      <td id="<%=exercise.id %>_begining"><%= exercise.begining.to_datetime.strftime('%H:%M') %></td>
+      <td id="<%=exercise.id %>_ending"><%= exercise.ending.to_datetime.strftime('%H:%M') %></td>
+      <td><%= link_to "Edit", edit_year_month_day_exercise_path(@year, @month, @day, exercise), remote: true %></td>
+      <td><%= link_to "Delete", year_month_day_exercise_path(@year, @month, @day, exercise), method: :delete, remote: true %></td>
+    </tr>
+<% end %>
+  </tbody>
+</table>

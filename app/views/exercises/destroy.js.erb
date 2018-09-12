@@ -1,6 +1,6 @@
-$("#insulin_injection_<%= @insulin_injection.id %>").fadeOut(500, function(){
+$("#exercise_<%= @exercise.id %>").fadeOut(500, function(){
 	$(this).remove();
-	$("#notifier").text("Meal is succsessfully deleted");
+	$("#notifier").text("Exercise is succsessfully deleted");
 	$("#lineChart").html('<%= j render "line_chart" %>');
 	$("#pieChart").html('<%= j render "pie_chart" %>');
 	window.location.href = '#lineChart'
