@@ -1,0 +1,3 @@
+ <div id="pieChart">
+<%= pie_chart((@day.sugar_levels.group(:status).count), adapter: "google") %>
+</div>

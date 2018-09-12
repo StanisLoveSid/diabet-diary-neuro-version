@@ -1,0 +1,9 @@
+$("#<%= @insulin_injection.id %>_created_at").text("<%= @insulin_injection.created_at.strftime('%H:%M') %>");
+$("#<%= @insulin_injection.id %>_amount").text("<%= @insulin_injection.amount %>");
+$("#<%= @insulin_injection.id %>_insulin_type").text("<%= @insulin_injection.insulin_type %>");
+$("#lineChart").html('<%= j render "line_chart" %>');
+$("#pieChart").html('<%= j render "pie_chart" %>');
+window.location.href = '#lineChart'
+$("#hereinsulininjection").remove();
+$("#thereinsulininjection").append("<div id='hereinsulininjection'></div>");
+$("#notifier").text("Insulin injection is succsessfully updated");

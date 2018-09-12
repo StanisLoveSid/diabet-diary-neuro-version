@@ -1,0 +1,8 @@
+$("#tableInsulinInjection").html("<%= j render 'insulin_injection' %>");
+$('#amount').val('');
+$('#timeinsulin').val('');
+$('#insulin_type').val('');
+$("#notifier").text("Meal is succsessfully created");
+$("#lineChart").html('<%= j render "line_chart" %>');
+$("#pieChart").html('<%= j render "pie_chart" %>');
+window.location.href = '#lineChart'

@@ -81,7 +81,7 @@
 
 <div class="col-sm-4">
 <h4>Insulin injection</h4>	
-<table class="table table-hover">
+<table class="table table-hover" id="tableInsulinInjection">
   <thead class="black white-text">
     <tr>
       <th scope="col">Amount</th>
@@ -93,16 +93,18 @@
   </thead>
   <tbody>
 <% @day.insulin_injections.each do |insulin_injection| %> 	
-    <tr>
-      <th scope="row"><%= insulin_injection.amount %></th>
-      <td><%= insulin_injection.insulin_type %></td>
-      <td><%= insulin_injection.created_at.strftime('%H:%M') %></td>
-      <td><%= link_to "Edit", edit_year_month_day_insulin_injection_path(@year, @month, @day, insulin_injection) %></td>
-      <td><%= link_to "Delete", year_month_day_insulin_injection_path(@year, @month, @day, insulin_injection), method: :delete %></td>
+    <tr id="insulin_injection_<%= insulin_injection.id %>">
+      <th scope="row" id="<%=insulin_injection.id %>_amount"><%= insulin_injection.amount %></th>
+      <td id="<%=insulin_injection.id %>_insulin_type"><%= insulin_injection.insulin_type %></td>
+      <td id="<%=insulin_injection.id %>_created_at"><%= insulin_injection.created_at.strftime('%H:%M') %></td>
+      <td><%= link_to "Edit", edit_year_month_day_insulin_injection_path(@year, @month, @day, insulin_injection), remote: true %></td>
+      <td><%= link_to "Delete", year_month_day_insulin_injection_path(@year, @month, @day, insulin_injection), method: :delete, remote: true %></td>
     </tr>
 <% end %>
   </tbody>
 </table>
+<div id="thereinsulininjection"></div>
+<div id="hereinsulininjection"></div>
  </div>
 </div>
 
@@ -110,7 +112,7 @@
 
 
 <div class="row" style="margin-top: 3%;">
-	<div class="col-sm-5">
+	<div class="col-sm-6">
 		<h4>Exercises</h4>
 <table class="table table-hover">
   <thead class="black white-text">
@@ -141,7 +143,7 @@
 
 	</div>
 
-	<div class="col-sm-5">
+	<div class="col-sm-6">
 		<h4>Warnings</h4>
 <table class="table table-hover">
   <thead class="black white-text">
@@ -279,14 +281,14 @@
 			<div class="col-sm-3">
 				<div class="main-login main-center" style="height: 466px;">
 				<h4>Insulin Injection.</h4>
-					<%= form_for([@year, @month, @day, @day.insulin_injections.build], method: :post ) do |f| %>
+					<%= form_for([@year, @month, @day, @day.insulin_injections.build], remote: true ) do |f| %>
 						
 						<div class="form-group">
 							<label for="name" class="cols-sm-2 control-label">Amount</label>
 							<div class="cols-sm-10">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-medkit" aria-hidden="true"></i></span>
-									<%= f.text_field :amount, class: "form-control", placeholder: "Amount" %>
+									<%= f.text_field :amount, class: "form-control", id: "amount", placeholder: "Amount" %>
 								</div>
 							</div>
 						</div>
@@ -296,7 +298,7 @@
 							<div class="cols-sm-10">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-medkit" aria-hidden="true"></i></span>
-									<%= f.text_field :insulin_type, class: "form-control", placeholder: "Insulin type" %>
+									<%= f.text_field :insulin_type, class: "form-control", id: "insulin_type", placeholder: "Insulin type" %>
 								</div>
 							</div>
 						</div>						

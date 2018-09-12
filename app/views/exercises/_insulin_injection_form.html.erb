@@ -1,0 +1,12 @@
+    <%= form_for([@year, @month, @day, @insulin_injection], remote: true ) do |f| %>
+    <div id="insulin_injection_<%= @insulin_injection.id %>">
+      <p scope="row"><%= f.text_field :amount, class: "form-control", placeholder: "amount" %></p>
+      <p><%= f.text_field :insulin_type, class: "form-control", placeholder: "insulin type" %></p>
+      <p><%= f.text_field :created_at, class: "form-control", placeholder: "time", id: "#{@insulin_injection.id}_time", value: "#{@insulin_injection.created_at.strftime('%H:%M')}" %></p>
+      <p></p>
+      <p><%= f.submit "Update", class: "btn btn-primary btn-lg btn-block login-button", style: "padding: 5px;" %></p>
+    </div>
+<% end %>
+
+
+
