@@ -1,0 +1,13 @@
+    <%= form_for([@year, @month, @day, @warning], remote: true ) do |f| %>
+    <div id="warning_<%= @warning.id %>">
+      <p scope="row"><%= f.text_field :reason, class: "form-control", placeholder: "reason" %></p>
+      <p><%= f.text_field :description, class: "form-control", placeholder: "description" %></p>
+      <p><%= f.text_field :begining, class: "form-control", placeholder: "time", id: "#{@warning.id}_time", value: "#{@warning.begining.to_datetime.strftime('%H:%M')}" %></p>
+      <p><%= f.text_field :ending, class: "form-control", placeholder: "time", id: "#{@warning.id}_time", value: "#{@warning.ending.to_datetime.strftime('%H:%M')}" %></p>      
+      <p></p>
+      <p><%= f.submit "Update", class: "btn btn-primary btn-lg btn-block login-button", style: "padding: 5px;" %></p>
+    </div>
+<% end %>
+
+
+

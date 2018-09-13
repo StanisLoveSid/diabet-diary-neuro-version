@@ -1,0 +1,7 @@
+$("#warning_<%= @warning.id %>").fadeOut(500, function(){
+	$(this).remove();
+	$("#notifier").text("Warning is succsessfully deleted");
+	$("#lineChart").html('<%= j render "line_chart" %>');
+	$("#pieChart").html('<%= j render "pie_chart" %>');
+	window.location.href = '#lineChart'
+});

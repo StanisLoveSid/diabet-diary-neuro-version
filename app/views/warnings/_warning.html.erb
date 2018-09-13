@@ -1,0 +1,24 @@
+<table class="table table-hover" id="tableWarning">
+  <thead class="black white-text">
+    <tr>
+      <th scope="col">Reason</th>
+      <th scope="col">Description</th>
+      <th scope="col">Begining</th>
+      <th scope="col">Ending</th>
+      <th scope="col">Edit</th>
+      <th scope="col">Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+<% @day.warnings.each do |warning| %>   
+    <tr id="warning_<%=warning.id %>">
+      <th scope="row" id="<%=warning.id %>_reason"><%= warning.reason %></th>
+      <td id="<%=warning.id %>_description"><%= warning.description %></td>
+      <td id="<%=warning.id %>_begining"><%= warning.begining.to_datetime.strftime('%H:%M') %></td>
+      <td id="<%=warning.id %>_ending"><%= warning.ending.to_datetime.strftime('%H:%M') %></td>
+      <td><%= link_to "Edit", edit_year_month_day_warning_path(@year, @month, @day, warning), remote: true %></td>
+      <td><%= link_to "Delete", year_month_day_warning_path(@year, @month, @day, warning), method: :delete, remote: true %></td>
+    </tr>
+<% end %>
+  </tbody>
+</table>

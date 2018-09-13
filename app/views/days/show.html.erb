@@ -62,10 +62,30 @@
     </tr>
   </thead>
   <tbody>
-<% @day.meals.each do |meal| %>  	
+<% @day.meals.each do |meal| %> 
+
+
+<!-- Modal -->
+<div class="modal fade" id="Modal_<%= meal.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Description</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="<%=meal.id %>_description">
+        <%= meal.description == nil ? "There is no description yet" : meal.description %>
+      </div>
+    </div>
+  </div>
+</div>
+
+
     <tr id="meal_<%= meal.id %>">
       <th scope="row" id="<%=meal.id %>_bread_units"><%= meal.bread_units %></th>
-      <td id="<%=meal.id %>_description"><%= meal.description == nil ? "----" : meal.description %></td>
+      <td ><a href="#" data-toggle="modal" data-target="#Modal_<%= meal.id %>">Read</a></td>
       <td id="<%=meal.id %>_created_at"><%= meal.created_at.strftime('%H:%M') %></td>
       <td><%= link_to "Edit", edit_year_month_day_meal_path(@year, @month, @day, meal), remote: true %></td>
       <td><%= link_to "Delete", year_month_day_meal_path(@year, @month, @day, meal), method: :delete, remote: true %></td>
@@ -146,7 +166,7 @@
 
 	<div class="col-sm-6">
 		<h4>Warnings</h4>
-<table class="table table-hover">
+<table class="table table-hover" id="tableWarning">
   <thead class="black white-text">
     <tr>
       <th scope="col">Reason</th>
@@ -159,20 +179,20 @@
   </thead>
   <tbody>
 <% @day.warnings.each do |warning| %>  	
-    <tr>
-      <th scope="row"><%= warning.reason %></th>
-      <td><%= warning.description %></td>
-      <td><%= warning.begining.to_datetime.strftime('%H:%M') %></td>
-      <td><%= warning.ending.to_datetime.strftime('%H:%M') %></td>
-      <td><%= link_to "Edit", edit_year_month_day_warning_path(@year, @month, @day, warning) %></td>
-      <td><%= link_to "Delete", year_month_day_warning_path(@year, @month, @day, warning), method: :delete %></td>
+    <tr id="warning_<%=warning.id %>">
+      <th scope="row" id="<%=warning.id %>_reason"><%= warning.reason %></th>
+      <td id="<%=warning.id %>_description"><%= warning.description %></td>
+      <td id="<%=warning.id %>_begining"><%= warning.begining.to_datetime.strftime('%H:%M') %></td>
+      <td id="<%=warning.id %>_ending"><%= warning.ending.to_datetime.strftime('%H:%M') %></td>
+      <td><%= link_to "Edit", edit_year_month_day_warning_path(@year, @month, @day, warning), remote: true %></td>
+      <td><%= link_to "Delete", year_month_day_warning_path(@year, @month, @day, warning), method: :delete, remote: true %></td>
     </tr>
 <% end %>
   </tbody>
 </table>
-
+<div id="therewarning"></div>
+<div id="herewarning"></div>
 	</div>
-
 </div>
 
 
@@ -384,14 +404,14 @@
 				<div class="col-sm-3">
 				<div class="main-login main-center">
 				<h4>Warnings.</h4>
-					<%= form_for([@year, @month, @day, @day.warnings.build], method: :post ) do |f| %>
+					<%= form_for([@year, @month, @day, @day.warnings.build], remote: true ) do |f| %>
 						
 						<div class="form-group">
 							<label for="name" class="cols-sm-2 control-label">Reason</label>
 							<div class="cols-sm-10">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-question" aria-hidden="true"></i></span>
-									<%= f.text_field :reason, class: "form-control", placeholder: "reason" %>
+									<%= f.text_field :reason, class: "form-control", id: "reason", placeholder: "reason" %>
 								</div>
 							</div>
 						</div>
@@ -401,7 +421,7 @@
 							<div class="cols-sm-10">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-book" aria-hidden="true"></i></span>
-									<%= f.text_field :description, class: "form-control", placeholder: "description" %>
+									<%= f.text_field :description, class: "form-control", id: "warningdescription", placeholder: "description" %>
 								</div>
 							</div>
 						</div>						
@@ -459,6 +479,7 @@
 </div>
 <% end %>
 </div>
+
 
 
 <style>
