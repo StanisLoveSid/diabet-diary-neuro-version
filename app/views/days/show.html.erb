@@ -64,13 +64,11 @@
   <tbody>
 <% @day.meals.each do |meal| %> 
 
-
-<!-- Modal -->
-<div class="modal fade" id="Modal_<%= meal.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="mealModal_<%= meal.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Description</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Meal description</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -85,7 +83,7 @@
 
     <tr id="meal_<%= meal.id %>">
       <th scope="row" id="<%=meal.id %>_bread_units"><%= meal.bread_units %></th>
-      <td ><a href="#" data-toggle="modal" data-target="#Modal_<%= meal.id %>">Read</a></td>
+      <td ><a href="#" data-toggle="modal" data-target="#mealModal_<%= meal.id %>">Read</a></td>
       <td id="<%=meal.id %>_created_at"><%= meal.created_at.strftime('%H:%M') %></td>
       <td><%= link_to "Edit", edit_year_month_day_meal_path(@year, @month, @day, meal), remote: true %></td>
       <td><%= link_to "Delete", year_month_day_meal_path(@year, @month, @day, meal), method: :delete, remote: true %></td>
@@ -147,10 +145,29 @@
     </tr>
   </thead>
   <tbody>
-<% @day.exercises.each do |exercise| %>  	
+<% @day.exercises.each do |exercise| %> 
+
+
+<div class="modal fade" id="exerciseModal_<%= exercise.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Exercise description</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="<%=exercise.id %>_description">
+        <%= exercise.description == nil ? "There is no description yet" : exercise.description %>
+      </div>
+    </div>
+  </div>
+</div>
+
+
     <tr id="exercise_<%=exercise.id %>">
       <th scope="row" id="<%=exercise.id %>_status"><%= exercise.status %></th>
-      <td id="<%=exercise.id %>_description"><%= exercise.description %></td>
+      <td><a href="#" data-toggle="modal" data-target="#exerciseModal_<%= exercise.id %>">Read</a></td>
       <td id="<%=exercise.id %>_duration"><%= (exercise.duration * 60).to_i %> mins</td>
       <td id="<%=exercise.id %>_begining"><%= exercise.begining.to_datetime.strftime('%H:%M') %></td>
       <td id="<%=exercise.id %>_ending"><%= exercise.ending.to_datetime.strftime('%H:%M') %></td>
@@ -178,10 +195,29 @@
     </tr>
   </thead>
   <tbody>
-<% @day.warnings.each do |warning| %>  	
+<% @day.warnings.each do |warning| %>
+
+
+<div class="modal fade" id="warningModal_<%= warning.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Warning description</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="<%=warning.id %>_description">
+        <%= warning.description == nil ? "There is no description yet" : warning.description %>
+      </div>
+    </div>
+  </div>
+</div>
+
+
     <tr id="warning_<%=warning.id %>">
       <th scope="row" id="<%=warning.id %>_reason"><%= warning.reason %></th>
-      <td id="<%=warning.id %>_description"><%= warning.description %></td>
+      <td><a href="#" data-toggle="modal" data-target="#warningModal_<%= warning.id %>">Read</a></td>
       <td id="<%=warning.id %>_begining"><%= warning.begining.to_datetime.strftime('%H:%M') %></td>
       <td id="<%=warning.id %>_ending"><%= warning.ending.to_datetime.strftime('%H:%M') %></td>
       <td><%= link_to "Edit", edit_year_month_day_warning_path(@year, @month, @day, warning), remote: true %></td>

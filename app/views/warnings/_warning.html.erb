@@ -10,10 +10,29 @@
     </tr>
   </thead>
   <tbody>
-<% @day.warnings.each do |warning| %>   
+<% @day.warnings.each do |warning| %>
+
+
+<div class="modal fade" id="warningModal_<%= warning.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Warning description</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="<%=warning.id %>_description">
+        <%= warning.description == nil ? "There is no description yet" : warning.description %>
+      </div>
+    </div>
+  </div>
+</div>
+
+
     <tr id="warning_<%=warning.id %>">
       <th scope="row" id="<%=warning.id %>_reason"><%= warning.reason %></th>
-      <td id="<%=warning.id %>_description"><%= warning.description %></td>
+      <td><a href="#" data-toggle="modal" data-target="#warningModal_<%= warning.id %>">Read</a></td>
       <td id="<%=warning.id %>_begining"><%= warning.begining.to_datetime.strftime('%H:%M') %></td>
       <td id="<%=warning.id %>_ending"><%= warning.ending.to_datetime.strftime('%H:%M') %></td>
       <td><%= link_to "Edit", edit_year_month_day_warning_path(@year, @month, @day, warning), remote: true %></td>
