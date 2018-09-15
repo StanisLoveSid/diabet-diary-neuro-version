@@ -1,3 +1,5 @@
+ <%= response[:stream]%>
+
  <div id="notifier"></div>
 
  <div id="lineChart">
@@ -248,7 +250,7 @@
 </p>
 <%= form.select :mode, ["general", "learning"],{}, {class: "form-control ra-filtering-select-input ui-autocomplete-input", style: "display: inline-block;"} %>
 				<div class="form-group">
-							<%= form.submit "submit", class: "btn btn-primary btn-lg btn-block login-button", id: "turbo", style: "background: #36820a;" %> 
+<%= form.button "submit", class: "btn btn-primary btn-lg btn-block login-button", id: "turbo", style: "background: #36820a;", data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> Loading..."} %> 
 						</div>
 <% end %>
 </div>

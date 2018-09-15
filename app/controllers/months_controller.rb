@@ -29,9 +29,20 @@ class MonthsController < ApplicationController
     end
   end
 
+  def calendar(month)
+    @all_days = {}
+    (1..30).to_a.each do |month_day|
+      @all_days[month_day] = false
+    end
+    @month.days.where.not(created_at: nil).each do |day|
+      @all_days[day.created_at.day] = true
+    end
+  end
+
   def show
     @year = Year.find(params[:year_id])
     @month = Month.find(params[:id])
+    calendar(@month)
     @days_collection = month_type - @month.days.map(&:day_number)
     @status_hash = {}
     @sug = @month.days.map{|day| day.sugar_levels.map{|sl| sl.status }}

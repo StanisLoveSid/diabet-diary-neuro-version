@@ -119,6 +119,7 @@ class DaysController < ApplicationController
       model.set_activation_function_output(:linear)
 
       model.train_on_data(train, 5000, 500, 0.01)
+      
       day.bsl_predictions.create(prediction: (model.run( [mmol, for_p_bread_units, for_p_insulin_injection, for_p_training_duration] ))[0])
 
     else
