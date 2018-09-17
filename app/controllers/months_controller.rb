@@ -29,7 +29,18 @@ class MonthsController < ApplicationController
     end
   end
 
-  def calendar(month)
+  def current_month?(month_name)
+  	@month = Month.find(params[:id])
+  	month_name == @month.month_name ? true : false
+  end
+
+  def calendar_months(year)
+  	@all_month = {}
+  	Date::MONTHNAMES[1..-1].each {|month_name| @all_month[month_name] = [false, current_month?(month_name)] }
+  	year.months.where.not(created_at: nil).each {|month| @all_month[month.month_name] = [true, current_month?(month.month_name)] }
+  end
+
+  def calendar_days(month)
     @all_days = {}
     (1..30).to_a.each do |month_day|
       @all_days[month_day] = false
@@ -42,7 +53,8 @@ class MonthsController < ApplicationController
   def show
     @year = Year.find(params[:year_id])
     @month = Month.find(params[:id])
-    calendar(@month)
+    calendar_days(@month)
+    calendar_months(@year)
     @days_collection = month_type - @month.days.map(&:day_number)
     @status_hash = {}
     @sug = @month.days.map{|day| day.sugar_levels.map{|sl| sl.status }}
@@ -62,7 +74,7 @@ class MonthsController < ApplicationController
   private
 
   def month_params
-    params.require(:month).permit(:compensation, :month_name, :year_id)
+    params.require(:month).permit(:compensation, :month_name, :year_id, :id)
   end
 
 end
