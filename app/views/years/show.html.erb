@@ -1,27 +1,55 @@
+<%= link_to "To main page", root_path %>
+<div class="row">
+	<div class="col-md-4 col-md-offset-4">
 <%= simple_form_for([@year, @year.months.build], method: :post ) do |f| %>
 <%= f.input :month_name, collection: @month_names %>
-<%= f.submit "submit" %>
+					<div class="form-group">
+							<%= f.submit "Add month", class: "btn btn-primary btn-lg btn-block login-button" %> 
+						</div>
 <% end %>
-
+</div>
+</div>
 <%= area_chart @zoomable %>
 
 <%= pie_chart @status_hash, adapter: "google"%>
 
-<%= link_to "Delete year", year_path(@year), method: :delete %>
 
+    <%= button_to "Delete year", year_path(@year), class: "btn btn-primary btn-lg btn-block login-button", style: "width: 200px;", method: :delete, data: { confirm: "Are you sure?" } %>
+
+
+<div class="row" style="margin-top: 5%;">
+	<div class="col-md-4 col-md-offset-4">
+<div class="list-group">
+<h3>Months:	</h3>
 <% @year.months.each do |month| %>
 <% if month.id != nil%>
-<%= link_to "#{month.month_name}", year_month_path(@year, month.id) %>
+<%= link_to "#{month.month_name}", year_month_path(@year, month.id), class: "list-group-item list-group-item-action text-center" %>
 <% end %>
 <% end %>
-
+</div>
+</div>
+</div>
 
 <%= render partial: "comments/comments", locals: {commentable: @year} %>
+
+<div class="row">
 <%= form_for [@year, Comment.new] do |f| %>
-<div class="form-group">
-	<%= f.text_field :status, class: "form-control" %>
-	<%= f.text_area :content, class: "form-control" %>
-	<%= f.submit "Add comment" %>
+<div class="form-group col-md-4 col-md-offset-4">
+	<h4 style="margin-bottom: 30px;">New comment</h4>
+
+	<label class="control-label">Priority: </label>
+	
+<%= f.select :status, ["Low", "Usual", "High"],{}, {class: "form-control ra-filtering-select-input ui-autocomplete-input", style: "display: inline-block;"} %>
+    <label class="control-label">Content: </label>
+    
+	<%= f.text_area :content, class: "form-control", style: "margin-bottom: 30px;" %>
+    
+    
+					<div class="form-group">
+							<%= f.submit "Add comment", class: "btn btn-primary btn-lg btn-block login-button", id: "turbo", style: "background: #d84b6b; border: #d84b6b;" %> 
+						</div>
+    
 </div>
 <% end %>
+</div>
 

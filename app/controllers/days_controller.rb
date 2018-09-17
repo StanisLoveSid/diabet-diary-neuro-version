@@ -7,9 +7,12 @@ class DaysController < ApplicationController
     @sugar_levels = SugarLevel.by_month(params[:month])
   end
 
+  def add_day
+    create
+  end
+
   def create
-    @year = Year.find(params[:year_id])
-    @month = Month.find(params[:month_id])
+    @month = Month.find(params[:day][:month_id])
     data = []
     @month.days.each { |d| data << d.day_number }
     unless data.include? day_params[:day_number].to_i
@@ -17,7 +20,8 @@ class DaysController < ApplicationController
     else
       flash[:notice] = "Day already exists"
     end
-    redirect_to :back
+    find_year_id = @month.year_id
+    redirect_to "/years/#{find_year_id}/months/#{@month.id}/days/#{@month.days.last.id}"
   end
 
   module Selectors
@@ -49,7 +53,7 @@ class DaysController < ApplicationController
     @prediction = @day.bsl_predictions.any? ? @day.bsl_predictions.last.prediction.round(2) : 0
 
   end
- 
+
   def destroy
     @day = Day.find(params[:id])
     @year = Year.find(params[:year_id])
@@ -119,7 +123,7 @@ class DaysController < ApplicationController
       model.set_activation_function_output(:linear)
 
       model.train_on_data(train, 5000, 500, 0.01)
-      
+
       day.bsl_predictions.create(prediction: (model.run( [mmol, for_p_bread_units, for_p_insulin_injection, for_p_training_duration] ))[0])
 
     else

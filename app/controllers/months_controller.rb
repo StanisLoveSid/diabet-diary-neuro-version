@@ -30,14 +30,18 @@ class MonthsController < ApplicationController
   end
 
   def current_month?(month_name)
-  	@month = Month.find(params[:id])
-  	month_name == @month.month_name ? true : false
+    @month = Month.find(params[:id])
+    month_name == @month.month_name ? true : false
   end
 
   def calendar_months(year)
-  	@all_month = {}
-  	Date::MONTHNAMES[1..-1].each {|month_name| @all_month[month_name] = [false, current_month?(month_name)] }
-  	year.months.where.not(created_at: nil).each {|month| @all_month[month.month_name] = [true, current_month?(month.month_name)] }
+    @all_month = {}
+    Date::MONTHNAMES[1..-1].each do |month_name|
+      @all_month[month_name] = [false, current_month?(month_name)]
+    end
+    year.months.where.not(created_at: nil).each do |month|
+      @all_month[month.month_name] = [true, current_month?(month.month_name)]
+    end
   end
 
   def calendar_days(month)

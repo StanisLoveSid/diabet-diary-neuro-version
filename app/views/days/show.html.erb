@@ -1,5 +1,4 @@
- <%= response[:stream]%>
-
+ <%= link_to "Back to month", "/years/#{@year.id}/months/#{@month.id}" %>
  <div id="notifier"></div>
 
  <div id="lineChart">
@@ -14,9 +13,9 @@
               <b style="color: green"> "Compensated" </b>
               <% else %>
               <b style="color: red"> "Not compensated" </b>
-              <% end %>
+              <% end %>          
 
-<%= link_to "Delete day", year_month_day_path(@year, @month, @day), method: :delete %>
+    <%= button_to "Delete day", year_month_day_path(@year, @month, @day), class: "btn btn-primary btn-lg btn-block login-button", style: "width: 200px; ", method: :delete, data: { confirm: "Are you sure?" } %>
 
 <div class="row" style="margin-top: 3%;">
 <% @day.errors.full_messages.each do |msg| %>

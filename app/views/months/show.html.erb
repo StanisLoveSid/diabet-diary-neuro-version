@@ -1,43 +1,16 @@
-<%= simple_form_for([@year, @month, @month.days.new]) do |f| %>
-<%= f.input :day_number, collection: @days_collection %>
-<%= f.submit "submit" %>
-<% end %>
-
+<%= link_to "Back to year", "/years/#{@year.id}" %>
 <%= line_chart @total %>
 <%= pie_chart(@status_hash, adapter: "google") %>
 
-<%= link_to "Delete month", year_month_path(@year, @month), method: :delete %>
 
-<% @month.days.each do |day| %>
-<% if day.id != nil%>
-<%= link_to "#{day.created_at.year}"+"."+"#{day.created_at.month}"+"."+"#{day.created_at.day}", year_month_day_path(@year, @month, day.id) %>
-<% end %>
-<% end %>
-
-
-<%= render partial: "comments/comments", locals: {commentable: @month} %>
-<%= form_for [@year, @month, Comment.new] do |f| %>
-<div class="form-group">
-	<%= f.text_field :status, class: "form-control" %>
-	<%= f.text_area :content, class: "form-control" %>
-	<%= f.submit "Add comment" %>
-</div>
-<% end %>
-
-
-
-
-
-
-<div class="row">	
+<div class="row" style="margin-top: 8%;">	
  <div class="col-sm-4"> 
   <div class="calendar-left">
 
 <div class="positioning" style="padding-top: 40%">
     <div class="num-date"><%= @month.created_at.year %></div>
-    <!--num-date -->
-    <div class="day"><%= @month.month_name %></div>
-    <!--day -->
+    <div class="day"><%= @month.month_name[0..2] %></div>
+    <%= button_to "Delete month", year_month_path(@year, @month), class: "btn btn-primary btn-lg btn-block login-button", style: "width: 200px; margin-left: 50px;", method: :delete, data: { confirm: "Are you sure?" } %>
 </div>
 
   </div>
@@ -91,7 +64,7 @@
 <strong class="active-day"><%= k.to_s.length == 1 ? "0#{k}" : k  %></strong>
 <% end %>
 <% else %>
-<%= k.to_s.length == 1 ? "0#{k}" : k %>
+<%= link_to (k.to_s.length == 1 ? "0#{k}" : k), add_day_path(day: {day_number: k, year_id: @year.id, month_id: @month.id}), class: "month-day", style: "color: black", method: :get %>
 <% end %>
 <% end %>
 </div>
@@ -106,20 +79,38 @@
 30
 <% end %>
        <span class="grey">01 02 03 04 05 06</span></div>
-      <!-- week -->
+
     </div>
-    <!-- num-dates -->
     <div class="event-indicator"></div>
-    <!-- event-indicator -->
     
     <div class="event-indicator two"></div>
-    <!-- event-indicator -->
 
   </div>
-  <!-- calendar-base -->
 </div>
 </div>
 
+<%= render partial: "comments/comments", locals: {commentable: @month} %>
+
+<div class="row">
+<%= form_for [@year, @month, Comment.new] do |f| %>
+<div class="form-group col-md-4 col-md-offset-4">
+	<h4 style="margin-bottom: 30px;">New comment</h4>
+
+	<label class="control-label">Priority: </label>
+	
+<%= f.select :status, ["Low", "Usual", "High"],{}, {class: "form-control ra-filtering-select-input ui-autocomplete-input", style: "display: inline-block;"} %>
+    <label class="control-label">Content: </label>
+    
+	<%= f.text_area :content, class: "form-control", style: "margin-bottom: 30px;" %>
+    
+    
+					<div class="form-group">
+							<%= f.submit "Add comment", class: "btn btn-primary btn-lg btn-block login-button", id: "turbo", style: "background: #d84b6b; border: #d84b6b;" %> 
+						</div>
+    
+</div>
+<% end %>
+</div>
 
 
 
@@ -234,7 +225,6 @@
   height: 500px;
   border-radius: 20px 0px 0px 20px;
   background-color: #2ECC71;
-  position: relative;
   z-index: -1;
   color: white;
 }
@@ -254,6 +244,22 @@
   font-size: 70px;
   position: relative;
   bottom: 30px;
+}
+
+.month-day:hover:after {
+  content: "add";	
+  font-weight: bold;
+  margin-top: -20px;
+  margin-bottom: -20px;	
+  margin-left: -24px;	
+  margin-right: -11px;
+  padding: 6px;	
+  color: white;	
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background-color: #2ECC71;
+  display: inline-block;
 }
 
 .current-events {

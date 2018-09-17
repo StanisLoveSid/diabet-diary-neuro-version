@@ -19,6 +19,7 @@ Rails.application.routes.draw do
     end
   end
 
+  get "add_day", to: "days#add_day" 
   get "/users/add_patient/:id", to: "users#add_patient"
   get "/users/accept_request/:id", to: "users#accept_request"
   get "/users/add_to_hospital/:id", to: "hospitals#add_to_hospital"
