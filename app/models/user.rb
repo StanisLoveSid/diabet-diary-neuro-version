@@ -9,6 +9,11 @@ class User < ApplicationRecord
   has_many :years, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_and_belongs_to_many :hospitals
+  before_save :fill_full_name
+
+  def fill_full_name
+    self[:full_name] = "#{first_name} #{last_name}"
+  end
 
   include AASM
   
