@@ -32,6 +32,18 @@ class DaysController < ApplicationController
 
   Hash.class_eval { include Selectors }
 
+  def insulin_type_layout
+    @types_layout = []
+    types = current_user.insulin_type
+    if types.include? ","
+      @types_layout = types.split(",")
+    elsif !types.include? ","
+      @types_layout = types.split(" ")
+    else
+      @types_layout = [types]
+    end
+  end
+
   def show
     @year = Year.find(params[:year_id])
     @month = Month.find(params[:month_id])
@@ -51,7 +63,7 @@ class DaysController < ApplicationController
     @warning_start = @day.warnings.group_by_minute(:begining).sum(15)
     @warning_end = @day.warnings.group_by_minute(:ending).sum(15)
     @prediction = @day.bsl_predictions.any? ? @day.bsl_predictions.last.prediction.round(2) : 0
-
+    insulin_type_layout
   end
 
   def destroy

@@ -16,7 +16,12 @@
 
   <div class="form-group">
     <%= f.label :role %>
-    <%= f.select :role, ["patient", "doctor"],{}, {class: "form-control"} %>
+    <%= f.select :role, ["patient", "doctor"], {}, id: 'selectrole', class: 'form-control', onclick: "admSelectCheck()" %>
+  </div>
+
+  <div class="form-group" id="insulintype">
+    <%= f.label :insulin_type %>
+    <%= f.text_field :insulin_type, class: 'form-control' %>
   </div>
 
   <div class="form-group">
@@ -45,3 +50,14 @@
 
 <%= render 'devise/shared/links' %>
 </div>
+
+<script>
+function admSelectCheck()
+{
+ if($('#selectrole').val() == "patient") {
+  $('#insulintype').css("display", "block"); 
+ } else {
+  $('#insulintype').css("display", "none"); 
+ } 
+  }
+</script>
