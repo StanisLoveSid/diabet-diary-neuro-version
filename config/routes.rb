@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   devise_for :users, controllers: { registrations: 'registrations' }
-  resources :users
+  resources :users do 
+    resources :years
+  end
   resources :hospitals
 
   resources :years do
@@ -25,7 +27,7 @@ Rails.application.routes.draw do
   get "/users/add_to_hospital/:id", to: "hospitals#add_to_hospital"
   get "/users/accept_hospital/:id", to: "hospitals#accept_hospital"
   get "/users/deny_hospital", to: "hospitals#deny_hospital"
-  get "/personal_page_:id", to: "users#personal_page"
+  get "/personal_page", to: "users#personal_page"
   get "/predict_bsl/day_:id", to: "days#predict_blood_sugar_level"
 
   root "years#index"

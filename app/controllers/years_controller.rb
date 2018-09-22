@@ -67,18 +67,20 @@ class YearsController < ApplicationController
   def index
     scopes
     @status_hash = {}
-    current_user.years.each do |year|
-      year.months.each do |month|
-        month.days.each do |day|
-          sug = day.sugar_levels.map { |sl| sl.status }
-          if @status_hash.empty?
-            @status_hash[:Low] = sug.flatten.count("Low")
-            @status_hash[:High] = sug.flatten.count("High")
-            @status_hash[:Normal] = sug.flatten.count("Normal")
-          else
-            @status_hash[:Low] += sug.flatten.count("Low")
-            @status_hash[:High] += sug.flatten.count("High")
-            @status_hash[:Normal] += sug.flatten.count("Normal")
+    if user_signed_in?
+      current_user.years.each do |year|
+        year.months.each do |month|
+          month.days.each do |day|
+            sug = day.sugar_levels.map { |sl| sl.status }
+            if @status_hash.empty?
+              @status_hash[:Low] = sug.flatten.count("Low")
+              @status_hash[:High] = sug.flatten.count("High")
+              @status_hash[:Normal] = sug.flatten.count("Normal")
+            else
+              @status_hash[:Low] += sug.flatten.count("Low")
+              @status_hash[:High] += sug.flatten.count("High")
+              @status_hash[:Normal] += sug.flatten.count("Normal")
+            end
           end
         end
       end
@@ -86,17 +88,20 @@ class YearsController < ApplicationController
     @total = []
     all_user_mmols = []
     all_user_times = []
-    current_user.years.each do |year|
-      year.months.each do |month|
-        month.days.each do |day|
-          all_user_mmols << day.sugar_levels.map {|e| e.mmol}
-          all_user_times << day.sugar_levels.map {|e| e.created_at}
+    if user_signed_in?
+      current_user.years.each do |year|
+        year.months.each do |month|
+          month.days.each do |day|
+            all_user_mmols << day.sugar_levels.map {|e| e.mmol}
+            all_user_times << day.sugar_levels.map {|e| e.created_at}
+          end
         end
+        @total << {name: "#{year.year_number}", data: all_user_times.flatten.zip(all_user_mmols.flatten).to_h, type: "area"}
+        all_user_mmols = []
+        all_user_times = []
       end
-      @total << {name: "#{year.year_number}", data: all_user_times.flatten.zip(all_user_mmols.flatten).to_h, type: "area"}
-      all_user_mmols = []
-      all_user_times = []
     end
+    @users = User.where(role: "patient").page params[:page]
   end
 
   private

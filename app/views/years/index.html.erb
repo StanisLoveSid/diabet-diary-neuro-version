@@ -1,5 +1,20 @@
 <% if user_signed_in? %>
 
+<% if current_user.role == "doctor" %>
+
+<h2>Monitoring users:</h2>
+<% current_user.pending_friends.each do |friend| %>
+<div style="margin-top: 5%;">
+<hr/>    
+<h3>Full name: <%= link_to "#{friend.full_name}", "/users/#{friend.id}/years" %></h3>
+<p>Current hospital: <%= friend.current_hospital %></p>
+</div>
+<% end %>
+
+<%= paginate @users %>
+
+<% else %>
+
 <%= line_chart @total %>
 <%= pie_chart @status_hash %>
 
@@ -24,6 +39,7 @@
 <% end %>
 </div>
 </div>
+<% end %>
 
 <% else %>
 
