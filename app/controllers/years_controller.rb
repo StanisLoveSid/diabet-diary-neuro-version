@@ -19,26 +19,16 @@ class YearsController < ApplicationController
   def show
     @year = Year.find(params[:id])
     @total = []
-    i = 0
+    all_user_mmols = []
+    all_user_times = []
     @year.months.each do |month|
       month.days.each do |day|
-        i += 1
-        mmols = day.sugar_levels.map {|e| e.mmol}
-        time  = day.sugar_levels.map {|e| e.created_at}
-        @total << {name: "Day #{i}", data: time.zip(mmols).to_h, type: "area"}
+        all_user_mmols << day.sugar_levels.map {|e| e.mmol}
+        all_user_times << day.sugar_levels.map {|e| e.created_at}
       end
-    end
-
-    @zoomable = []
-    j = 0
-    @year.months.each do |month|
-      j += 1
-      time = month.created_at
-      mmols = month.average_month
-      arr = []
-      arr << time
-      arr << mmols.to_f
-      @zoomable << arr
+      @total << {name: "#{month.month_name}", data: all_user_times.flatten.zip(all_user_mmols.flatten).to_h, type: "area"}
+      all_user_mmols = []
+      all_user_times = []
     end
 
     @status_hash = {}
@@ -46,8 +36,7 @@ class YearsController < ApplicationController
     @status_hash[:Low] = @sug.flatten.count("High")
     @status_hash[:High] = @sug.flatten.count("Low")
     @status_hash[:Normal] = @sug.flatten.count("Normal")
-    @month_names = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"] - @year.months.map(&:month_name)
-
+    @month_names = Date::MONTHNAMES[1..-1] - @year.months.map(&:month_name)
   end
 
   module Selectors
@@ -58,7 +47,7 @@ class YearsController < ApplicationController
 
   Hash.class_eval { include Selectors }
 
-  def index
+  def scopes
     @random_day_sample = Day.order("RANDOM()").includes(:bsl_predictions).where.not(bsl_predictions: {prediction: nil}).first
     @years = Year.all
     @year_collection = (1990..Time.now.year).to_a - Year.all.map(&:year_number)
@@ -73,6 +62,41 @@ class YearsController < ApplicationController
     @warning_start = @random_day_sample.warnings.where("reason = ?", "start").group_by_minute(:created_at).sum(15)
     @warning_end = @random_day_sample.warnings.where("reason = ?", "end").group_by_minute(:created_at).sum(15)
     @prediction = @random_day_sample.bsl_predictions.any? ? @random_day_sample.bsl_predictions.last.prediction.round(2) : 0
+  end
+
+  def index
+    scopes
+    @status_hash = {}
+    current_user.years.each do |year|
+      year.months.each do |month|
+        month.days.each do |day|
+          sug = day.sugar_levels.map { |sl| sl.status }
+          if @status_hash.empty?
+            @status_hash[:Low] = sug.flatten.count("Low")
+            @status_hash[:High] = sug.flatten.count("High")
+            @status_hash[:Normal] = sug.flatten.count("Normal")
+          else
+            @status_hash[:Low] += sug.flatten.count("Low")
+            @status_hash[:High] += sug.flatten.count("High")
+            @status_hash[:Normal] += sug.flatten.count("Normal")
+          end
+        end
+      end
+    end
+    @total = []
+    all_user_mmols = []
+    all_user_times = []
+    current_user.years.each do |year|
+      year.months.each do |month|
+        month.days.each do |day|
+          all_user_mmols << day.sugar_levels.map {|e| e.mmol}
+          all_user_times << day.sugar_levels.map {|e| e.created_at}
+        end
+      end
+      @total << {name: "#{year.year_number}", data: all_user_times.flatten.zip(all_user_mmols.flatten).to_h, type: "area"}
+      all_user_mmols = []
+      all_user_times = []
+    end
   end
 
   private

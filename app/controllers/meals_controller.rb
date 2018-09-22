@@ -25,9 +25,7 @@ class MealsController < ApplicationController
 
   Hash.class_eval { include Selectors }
 
-  def scopes(day, created_at_param=0)
-    @time_creation = "#{day.created_at.year}"+"-"+
-      "#{day.created_at.month}"+"-"+"#{day.created_at.day} #{created_at_param}"
+  def scopes(day)
     @s_l = day.sugar_levels.group_by_minute(:created_at).sum(:mmol)
     @result = @s_l.without_emty_slots
     @meals = day.meals.group_by_minute(:created_at).sum(4)
@@ -46,10 +44,12 @@ class MealsController < ApplicationController
     @day = Day.find(@meal.day_id)
     @month = Month.find(@day.month_id)
     @year = Year.find(@month.year_id)
-    scopes(@day, params[:meal][:created_at])
+    @time_creation = "#{@day.created_at.year}"+"-"+
+      "#{@day.created_at.month}"+"-"+"#{@day.created_at.day} #{params[:meal][:created_at]}"
     @meal.update(bread_units: params[:meal][:bread_units],
                  created_at: @time_creation,
                  description: params[:meal][:description])
+    scopes(@day)
     respond_to do |format|
       format.json
       format.js

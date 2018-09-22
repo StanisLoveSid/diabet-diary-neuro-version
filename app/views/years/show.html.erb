@@ -9,7 +9,10 @@
 <% end %>
 </div>
 </div>
-<%= area_chart @zoomable %>
+<%= area_chart @total %>
+<h3>
+*Average result per month	
+</h3>
 
 <%= pie_chart @status_hash, adapter: "google"%>
 

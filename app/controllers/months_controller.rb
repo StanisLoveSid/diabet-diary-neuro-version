@@ -66,12 +66,10 @@ class MonthsController < ApplicationController
     @status_hash[:High] = @sug.flatten.count("High")
     @status_hash[:Normal] = @sug.flatten.count("Normal")
     @total = []
-    i = 0
     @month.days.each do |day|
-      i += 1
       mmols = day.sugar_levels.map {|e| e.mmol}
       time  = day.sugar_levels.map {|e| e.created_at}
-      @total << {name: "Day #{i}", data: time.zip(mmols).to_h, type: "area"}
+      @total << {name: "#{day.created_at.day}", data: time.zip(mmols).to_h, type: "area"}
     end
   end
 

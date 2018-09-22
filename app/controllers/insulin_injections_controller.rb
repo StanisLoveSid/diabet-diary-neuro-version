@@ -1,5 +1,5 @@
 class InsulinInjectionsController < ApplicationController
-  
+
   before_action :set_day, only: [:destroy]
 
   def edit
@@ -25,9 +25,7 @@ class InsulinInjectionsController < ApplicationController
 
   Hash.class_eval { include Selectors }
 
-  def scopes(day, created_at_param=0)
-    @time_creation = "#{day.created_at.year}"+"-"+
-      "#{day.created_at.month}"+"-"+"#{day.created_at.day} #{created_at_param}"
+  def scopes(day)
     @s_l = day.sugar_levels.group_by_minute(:created_at).sum(:mmol)
     @result = @s_l.without_emty_slots
     @meals = day.meals.group_by_minute(:created_at).sum(4)
@@ -46,10 +44,12 @@ class InsulinInjectionsController < ApplicationController
     @day = Day.find(@insulin_injection.day_id)
     @month = Month.find(@day.month_id)
     @year = Year.find(@month.year_id)
-    scopes(@day, params[:insulin_injection][:created_at])
+    @time_creation = "#{@day.created_at.year}"+"-"+
+      "#{@day.created_at.month}"+"-"+"#{@day.created_at.day} #{params[:insulin_injection][:created_at]}"
     @insulin_injection.update(amount: params[:insulin_injection][:amount],
-                 created_at: @time_creation,
-                 insulin_type: params[:insulin_injection][:insulin_type])
+                              created_at: @time_creation,
+                              insulin_type: params[:insulin_injection][:insulin_type])
+    scopes(@day)
     respond_to do |format|
       format.json
       format.js
@@ -94,4 +94,4 @@ class InsulinInjectionsController < ApplicationController
     params.require(:insulin_injection).permit(:amount, :insulin_type, :created_at, :day_id, :id)
   end
 
-end 
+end
