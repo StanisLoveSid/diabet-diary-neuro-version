@@ -2,9 +2,11 @@ class UsersController < ApplicationController
 
   def index
     if current_user.role == "patient"
-      @users = User.where(role: "doctor").page params[:page]
+      doctor_users = User.where(role: "doctor").page params[:page]
+      @users = doctor_users.where("full_name LIKE ?", "%#{params[:search]}%")
     else
-      @users = User.where(role: "patient").page params[:page]
+      patient_users = User.where(role: "patient").page params[:page]
+      @users = patient_users.where("full_name LIKE ?", "%#{params[:search]}%")
     end
   end
 

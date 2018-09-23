@@ -107,7 +107,7 @@ class YearsController < ApplicationController
   private
 
   def year_params
-    params.require(:year).permit(:description, :year_number)
+    params.require(:year).permit(:description, :year_number, :user_id)
   end
 
 end

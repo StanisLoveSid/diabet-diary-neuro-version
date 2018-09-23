@@ -1,7 +1,15 @@
+<%= form_tag users_path, method: :get do %>
+<div class="form-group col-sm-2">
+<%= text_field_tag :search, params[:search], class: "form-control", placeholder: "Search by full name" %>
+</div>
+<%= submit_tag "Search", class: "btn btn-primary" %>
+<% end %>
+
+
 <div class="row">
 <% if current_user.role == "patient" %>
 <h2>Doctors:</h2>
-<% User.where(role: "doctor").each do |user| %>
+<% @users.each do |user| %>
 <div style="margin-top: 5%;">
 <hr/>    
 <h3>Full name: <%= user.full_name %></h3>
@@ -13,7 +21,7 @@
 
 <% if current_user.role == "doctor" %>
 <h2>Patients:</h2>
-<% User.where(role: "patient").each do |user| %>
+<% @users.each do |user| %>
 <div style="margin-top: 5%;">
 <hr/>    
 <h3>Full name: <%= user.full_name %></h3>

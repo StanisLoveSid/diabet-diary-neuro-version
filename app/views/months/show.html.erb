@@ -51,7 +51,7 @@
 <strong class="active-day">01</strong>
 <% end %>
 <% else %>
-01
+<%= link_to "1", add_day_path(day: {day_number: 1, year_id: @year.id, month_id: @month.id}), class: "month-day", style: "color: black", method: :get %>
 <% end %>
       </div>
 
@@ -76,7 +76,7 @@
 <strong class="active-day">30</strong>
 <% end %>
 <% else %>
-30
+<%= link_to "30", add_day_path(day: {day_number: 30, year_id: @year.id, month_id: @month.id}), class: "month-day", style: "color: black", method: :get %>
 <% end %>
        <span class="grey">01 02 03 04 05 06</span></div>
 

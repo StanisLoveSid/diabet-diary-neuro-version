@@ -21,3 +21,8 @@
 //= require turbolinks
 //= require_tree .
 
+jQuery(function($) {
+  $(document).on('turbolinks:load', function() {
+  	Turbolinks.clearCache();
+  });
+});

@@ -11,6 +11,21 @@
 </div>
 <% end %>
 
+<% unless params[:user_id].nil? %>
+<% if User.find(params[:user_id]).years.any? %>
+<div class="row">	
+<div class="list-group col-md-4 col-md-offset-4">
+<h3>Years:</h3>	
+<% User.find(params[:user_id]).years.each do |year| %>
+<% unless year.nil? %>
+<%= link_to "#{year.year_number}", "years/#{year.id}", class: "list-group-item list-group-item-action #{'active' if year.year_number == Time.now.year}" %>
+<% end %>
+<% end %>
+</div>
+</div>
+<% end %>
+<% end %>
+
 <%= paginate @users %>
 
 <% else %>
@@ -23,6 +38,7 @@
 <%= simple_form_for current_user.years.new do |f| %>
 <div class="form-group">
 <%= f.input :year_number, collection: @year_collection %>
+<%= f.hidden_field :user_id, value: current_user.id %>
 </div>
 <div class="form-group">
 <%= f.submit "Add year", class: "btn btn-primary" %>
@@ -31,14 +47,19 @@
 </div>
 </div>
 
+<% if current_user.years.any? %>
 <div class="row">	
 <div class="list-group col-md-4 col-md-offset-4">
 <h3>Years:</h3>	
-<% @years.each do |year| %>
-<%= link_to "#{year.created_at.year}", year_path(year.id), class: "list-group-item list-group-item-action #{'active' if year.year_number == Time.now.year}" %>
+<% current_user.years.each do |year| %>
+<% unless year.nil? %>
+<%= link_to "#{year.year_number}", "years/#{year.id}", class: "list-group-item list-group-item-action #{'active' if year.year_number == Time.now.year}" %>
+<% end %>
 <% end %>
 </div>
 </div>
+<% end %>
+
 <% end %>
 
 <% else %>
