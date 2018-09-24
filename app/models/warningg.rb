@@ -1,4 +1,4 @@
-class Warning < ApplicationRecord
+class Warningg < ApplicationRecord
   belongs_to :day
   validates :begining, presence: true, timeliness: { type: :datetime }
   validates :ending, presence: true, timeliness: { type: :datetime }

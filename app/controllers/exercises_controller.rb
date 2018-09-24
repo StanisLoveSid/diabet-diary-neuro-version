@@ -55,8 +55,8 @@ class ExercisesController < ApplicationController
     @insulin_result = @insulin.without_emty_slots
     @exercise_start = day.exercises.group_by_minute(:begining).sum(10)
     @exercise_end = day.exercises.group_by_minute(:ending).sum(10)
-    @warning_start = day.warnings.group_by_minute(:begining).sum(15)
-    @warning_end = day.warnings.group_by_minute(:ending).sum(15)
+    @warning_start = day.warninggs.group_by_minute(:begining).sum(15)
+    @warning_end = day.warninggs.group_by_minute(:ending).sum(15)
     @prediction = day.bsl_predictions.any? ? day.bsl_predictions.last.prediction.round(2) : 0
   end
 

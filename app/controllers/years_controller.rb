@@ -59,8 +59,8 @@ class YearsController < ApplicationController
     @insulin_result = @insulin.without_emty_slots
     @exercise_start = @random_day_sample.exercises.group_by_minute(:begining).sum(10)
     @exercise_end = @random_day_sample.exercises.group_by_minute(:ending).sum(10)
-    @warning_start = @random_day_sample.warnings.where("reason = ?", "start").group_by_minute(:created_at).sum(15)
-    @warning_end = @random_day_sample.warnings.where("reason = ?", "end").group_by_minute(:created_at).sum(15)
+    @warning_start = @random_day_sample.warninggs.where("reason = ?", "start").group_by_minute(:created_at).sum(15)
+    @warning_end = @random_day_sample.warninggs.where("reason = ?", "end").group_by_minute(:created_at).sum(15)
     @prediction = @random_day_sample.bsl_predictions.any? ? @random_day_sample.bsl_predictions.last.prediction.round(2) : 0
   end
 

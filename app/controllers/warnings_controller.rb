@@ -1,4 +1,4 @@
-class WarningsController < ApplicationController
+class WarninggsController < ApplicationController
 
   before_action :set_day, only: [:destroy]
 
@@ -6,25 +6,25 @@ class WarningsController < ApplicationController
     @day = Day.find(params[:day_id])
     @month = Month.find(@day.month_id)
     @year = Year.find(@month.year_id)
-    @day.warnings.create(warning_params)
-    last_warning = @day.warnings.last
+    @day.warninggs.create(warningg_params)
+    last_warningg = @day.warninggs.last
     time_creation_begining = "#{@day.created_at.year}"+"-"+
-      "#{@day.created_at.month}"+"-"+"#{@day.created_at.day} #{params[:warning][:begining]}"
+      "#{@day.created_at.month}"+"-"+"#{@day.created_at.day} #{params[:warningg][:begining]}"
     time_creation_ending = "#{@day.created_at.year}"+"-"+
-      "#{@day.created_at.month}"+"-"+"#{@day.created_at.day} #{params[:warning][:ending]}"
-    last_warning.update(begining: time_creation_begining,
+      "#{@day.created_at.month}"+"-"+"#{@day.created_at.day} #{params[:warningg][:ending]}"
+    last_warningg.update(begining: time_creation_begining,
                          ending: time_creation_ending, created_at: time_creation_begining,
                          updated_at: time_creation_ending)
     scopes(@day)
-    @warning = @day.warnings.last(2).first
+    @warningg = @day.warninggs.last(2).first
     respond_to do |format|
       format.js
     end
   end
 
   def edit
-    @warning = Warning.find(params[:id])
-    @day = Day.find(@warning.day_id)
+    @warningg = Warningg.find(params[:id])
+    @day = Day.find(@warningg.day_id)
     @month = Month.find(@day.month_id)
     @year = Year.find(@month.year_id)
     respond_to do |format|
@@ -54,24 +54,24 @@ class WarningsController < ApplicationController
     @insulin_result = @insulin.without_emty_slots
     @exercise_start = day.exercises.group_by_minute(:begining).sum(10)
     @exercise_end = day.exercises.group_by_minute(:ending).sum(10)
-    @warning_start = day.warnings.group_by_minute(:begining).sum(15)
-    @warning_end = day.warnings.group_by_minute(:ending).sum(15)
+    @warningg_start = day.warninggs.group_by_minute(:begining).sum(15)
+    @warningg_end = day.warninggs.group_by_minute(:ending).sum(15)
     @prediction = day.bsl_predictions.any? ? day.bsl_predictions.last.prediction.round(2) : 0
   end
 
   def update
-    @warning = Warning.find(params[:id])
-    @day = Day.find(@warning.day_id)
+    @warningg = Warningg.find(params[:id])
+    @day = Day.find(@warningg.day_id)
     @month = Month.find(@day.month_id)
     @year = Year.find(@month.year_id)
     time_creation_begining = "#{@day.created_at.year}"+"-"+
-      "#{@day.created_at.month}"+"-"+"#{@day.created_at.day} #{params[:warning][:begining]}"
+      "#{@day.created_at.month}"+"-"+"#{@day.created_at.day} #{params[:warningg][:begining]}"
     time_creation_ending = "#{@day.created_at.year}"+"-"+
-      "#{@day.created_at.month}"+"-"+"#{@day.created_at.day} #{params[:warning][:ending]}"
-    @warning.update(begining: time_creation_begining,
+      "#{@day.created_at.month}"+"-"+"#{@day.created_at.day} #{params[:warningg][:ending]}"
+    @warningg.update(begining: time_creation_begining,
                      ending: time_creation_ending, created_at: time_creation_begining,
-                     updated_at: time_creation_ending, description: params[:warning][:description],
-                     reason: params[:warning][:reason])
+                     updated_at: time_creation_ending, description: params[:warningg][:description],
+                     reason: params[:warningg][:reason])
     scopes(@day)
     respond_to do |format|
       format.json
@@ -80,10 +80,10 @@ class WarningsController < ApplicationController
   end
 
   def destroy
-    @day = Day.find(@warning.day_id)
+    @day = Day.find(@warningg.day_id)
     @month = Month.find(@day.month_id)
     @year = Year.find(@month.year_id)
-    @day.warnings.delete @warning
+    @day.warninggs.delete @warningg
     scopes @day
     respond_to do |format|
       format.json { head :no_content }
@@ -95,11 +95,11 @@ class WarningsController < ApplicationController
 
   def set_day
     @day = Day.find(params[:day_id])
-    @warning = @day.warnings.find(params[:id])
+    @warningg = @day.warninggs.find(params[:id])
   end
 
-  def warning_params
-    params.require(:warning).permit(:reason, :description, :created_at, :day_id, :begining, :ending)
+  def warningg_params
+    params.require(:warningg).permit(:reason, :description, :created_at, :day_id, :begining, :ending)
   end
 
 end

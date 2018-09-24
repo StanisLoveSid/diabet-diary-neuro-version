@@ -1,0 +1,28 @@
+0000000000000000000000000000000000000000 11ba3b9bcc5d85a173e6571507377ce32e1c09e6 StanisLove Sid <joingamings@gmail.com> 1534002631 +0300	commit (initial): first commit
+11ba3b9bcc5d85a173e6571507377ce32e1c09e6 d27778fba1b3522183a11c0017457cee75aeb6d7 StanisLove Sid <joingamings@gmail.com> 1535228661 +0300	commit: learning mode added
+d27778fba1b3522183a11c0017457cee75aeb6d7 5aba366a35941473ce1c7b0e70827422914408fb StanisLove Sid <joingamings@gmail.com> 1535293753 +0300	commit: edit exercises
+5aba366a35941473ce1c7b0e70827422914408fb 1187cdb3927c483be255dbe18cbaa8aa36340a39 StanisLove Sid <joingamings@gmail.com> 1535299996 +0300	commit: exercises duration
+1187cdb3927c483be255dbe18cbaa8aa36340a39 b85b35ef3b79a059f166106b06feaba258beb2c2 StanisLove Sid <joingamings@gmail.com> 1536099426 +0300	commit: layouts and validations
+b85b35ef3b79a059f166106b06feaba258beb2c2 f04623a70635ffdb86a73b42a711bf62dbab5fdf StanisLove Sid <joingamings@gmail.com> 1536157878 +0300	commit: validations with cond and clock picker
+f04623a70635ffdb86a73b42a711bf62dbab5fdf 4f09a2c411c60c3d9db1026a53223ddd23a26e27 StanisLove Sid <joingamings@gmail.com> 1536245444 +0300	commit: jquery afterload problem solved!
+4f09a2c411c60c3d9db1026a53223ddd23a26e27 62e2ef9c1e4b0894337cb9f4873dec3b59683c1c StanisLove Sid <joingamings@gmail.com> 1536264700 +0300	commit: input forms style
+62e2ef9c1e4b0894337cb9f4873dec3b59683c1c 2a3b93a35acda1e6b34854ac65326a9ce6ef8018 StanisLove Sid <joingamings@gmail.com> 1536407525 +0300	commit: forms styles and comment model
+2a3b93a35acda1e6b34854ac65326a9ce6ef8018 b1a0399709155ea4dbeff29407a3c91a0a70d9c3 StanisLove Sid <joingamings@gmail.com> 1536427259 +0300	commit: js action destroy sugar level model chart rendering
+b1a0399709155ea4dbeff29407a3c91a0a70d9c3 6d40749ffb2a4bbf3ac8f965ac41cc2eb62b04fa StanisLove Sid <joingamings@gmail.com> 1536534859 +0300	commit: js update action sugar level
+6d40749ffb2a4bbf3ac8f965ac41cc2eb62b04fa 4358f4199b0982787ad0f3ac0786b7d6c53399cc StanisLove Sid <joingamings@gmail.com> 1536585437 +0300	commit: js create action sugar level
+4358f4199b0982787ad0f3ac0786b7d6c53399cc 376b99ebb9576bd53568ec746b4973cf1ae34d6a StanisLove Sid <joingamings@gmail.com> 1536586063 +0300	commit: js create action sugar level
+376b99ebb9576bd53568ec746b4973cf1ae34d6a 37245e6d1219887cf7c1591c72631755d6df48f8 StanisLove Sid <joingamings@gmail.com> 1536683109 +0300	commit: sugar level refactoring controller
+37245e6d1219887cf7c1591c72631755d6df48f8 e6a92d617daef82a771a33fc46fdcd0c4b021af7 StanisLove Sid <joingamings@gmail.com> 1536700967 +0300	commit: js crud actions meal
+e6a92d617daef82a771a33fc46fdcd0c4b021af7 29c967c87e78cf57ce938f08aa2bdfb94cc45052 StanisLove Sid <joingamings@gmail.com> 1536757034 +0300	commit: js crud actions insulin injection
+29c967c87e78cf57ce938f08aa2bdfb94cc45052 0a86e538da8b9c9d4e25eb7385d3b027831678f8 StanisLove Sid <joingamings@gmail.com> 1536760417 +0300	commit: js crud actions exercise
+0a86e538da8b9c9d4e25eb7385d3b027831678f8 20b58255efc515e00155994b7fc8ed08c0e96587 StanisLove Sid <joingamings@gmail.com> 1536833034 +0300	commit: js crud actions warning
+20b58255efc515e00155994b7fc8ed08c0e96587 881a883c283ced4e32f1ee7840adceb56c657429 StanisLove Sid <joingamings@gmail.com> 1536838435 +0300	commit: js read more option
+881a883c283ced4e32f1ee7840adceb56c657429 4a64d5a3da87a8b084f17b03a3ea479bdbbb8fc7 StanisLove Sid <joingamings@gmail.com> 1537046641 +0300	commit: calendar mod
+4a64d5a3da87a8b084f17b03a3ea479bdbbb8fc7 58369ca2c1533146ee10bcb0f77702dd48ac554f StanisLove Sid <joingamings@gmail.com> 1537197093 +0300	commit: added flexible calendar links
+58369ca2c1533146ee10bcb0f77702dd48ac554f f1518e8aa3552bb2b0524d1fd994e11e20c1e137 StanisLove Sid <joingamings@gmail.com> 1537219930 +0300	commit: calendar style and routes
+f1518e8aa3552bb2b0524d1fd994e11e20c1e137 2ac2f579149b73e0fcdabe6f5281635c34d7482c StanisLove Sid <joingamings@gmail.com> 1537391108 +0300	commit: devise customisation
+2ac2f579149b73e0fcdabe6f5281635c34d7482c 30c1c9b5959b85bbc7235d50f3beb5c5b6f04101 StanisLove Sid <joingamings@gmail.com> 1537543408 +0300	commit: js and insulin_types layuot
+30c1c9b5959b85bbc7235d50f3beb5c5b6f04101 a46093e078949c47173b471c1224c1006719b0fc StanisLove Sid <joingamings@gmail.com> 1537645592 +0300	commit: editing charts
+a46093e078949c47173b471c1224c1006719b0fc 068006338de4874bf3b313a6a1195257280e77e3 StanisLove Sid <joingamings@gmail.com> 1537657039 +0300	commit: doctor-patient basic relationships
+068006338de4874bf3b313a6a1195257280e77e3 8c02d2d38d59375ef3efacbbcd2d0ee65fffcbd6 StanisLove Sid <joingamings@gmail.com> 1537721154 +0300	commit: fixed links
+8c02d2d38d59375ef3efacbbcd2d0ee65fffcbd6 771d903e5ade55b810318ec245b8faca1eaddeb3 StanisLove Sid <joingamings@gmail.com> 1537725323 +0300	commit: clean gemfile
